@@ -1,4 +1,7 @@
 # Jekyll-Bootstrap
 
-rm -rf _site
-jekyll --server
+To try it out:
+
+    rm -rf _site
+    jekyll --server
+
