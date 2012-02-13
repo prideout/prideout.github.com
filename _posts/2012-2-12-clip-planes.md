@@ -2,6 +2,8 @@
 layout: post
 category : opengl
 tags : [opengl, clip planes]
+description : "how to use clip planes in 'modern' OpenGL"
+thumbnail : http://prideout.net/blog/p72/Art-Thumbnail.png 
 ---
 {% include JB/setup %}
 
