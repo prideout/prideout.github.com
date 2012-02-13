@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Hello World!
+title: The Little Grasshopper
 ---
 <ul class="posts">
   {% for post in site.posts %}
