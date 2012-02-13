@@ -9,6 +9,31 @@ thumbnail : ClipPlanes-resized.png
 
 http://prideout.net/blog/p72/Art-Thumbnail.png 
 
+{% highlight cpp %}
+void main() {
+     int i = 0;
+     // hello world
+}
+{% endhighlight %}
+
+Yo!
+
+{% highlight glsl %}
+void main() {
+     vec2 i = 0;
+     float f = 1.0;
+     // hello world
+}
+{% endhighlight %}
+
+{% highlight c++ %}
+void main() {
+     vec2 i = 0;
+     float f = 1.0;
+     // hello world
+}
+{% endhighlight %}
+
 For those familiar with the pre-OpenGL 3.0 era of clip planes, using clip planes in today's OpenGL can be a little tricky.
 
 ## Overview 
