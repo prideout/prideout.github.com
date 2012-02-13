@@ -7,7 +7,7 @@ title: The Little Grasshopper
   <li>
     <span>
       <div>
-        <img src="{{ post.thumbnail }}" alt="thumbnail"/>
+        <img src="{{ BASE_PATH }}/assets/thumbnails/{{ post.thumbnail }}" alt="thumbnail"/>
       </div>
       <span>
         {{ post.date | date_to_string }}

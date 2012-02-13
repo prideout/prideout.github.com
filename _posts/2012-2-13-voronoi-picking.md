@@ -1,13 +1,11 @@
 ---
 layout: post
 category : opengl
-tags : [opengl, clip planes]
-description : "how to use clip planes in 'modern' OpenGL"
-thumbnail : ClipPlanes-resized.png
+tags : [opengl, voronoi]
+description : "create voronoi maps on the fly with nailboards, and use them for picking"
+thumbnail : VoronoiPicking-resized.png
 ---
 {% include JB/setup %}
-
-http://prideout.net/blog/p72/Art-Thumbnail.png 
 
 For those familiar with the pre-OpenGL 3.0 era of clip planes, using clip planes in today's OpenGL can be a little tricky.
 
