@@ -3,7 +3,7 @@ layout: post
 category : opengl
 tags : [opengl, voronoi]
 description : "create voronoi maps with nailboards, use them for point selection"
-thumbnail : VoronoiPicking-resized.png
+thumbnail : VoronoiPicking-masked.png
 ---
 {% include JB/setup %}
 
