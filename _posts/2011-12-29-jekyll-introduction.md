@@ -2,6 +2,8 @@
 layout: post
 category : lessons
 tags : [intro, beginner, jekyll, tutorial]
+description : "just a test"
+thumbnail : GoLang-resized.png
 ---
 {% include JB/setup %}
 
