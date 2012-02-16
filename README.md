@@ -1,3 +1,5 @@
+# Installation
+
 To try it out:
 
     rm -rf _site
@@ -10,3 +12,17 @@ Also might need to do this:
     echo ".cpp  { background: #f8f8f8; background-color: #f8f8f8; }" >> assets/css/syntax.css
     echo ".glsl  { background: #f8f8f8; background-color: #f8f8f8; }" >> assets/css/syntax.css
     echo ".c  { background: #f8f8f8; background-color: #f8f8f8; }" >> assets/css/syntax.css
+
+# Reference
+
+This is where the top-level HTML lives, with the favicon declaration, topbar, mainbody container, and footer:
+
+    _includes/default.html
+
+This has the loop over posts to show a summary on the portal:
+
+    blog-skeleton/index.md
+
+Learn about the CSS here:
+
+http://twitter.github.com/bootstrap/scaffolding.html

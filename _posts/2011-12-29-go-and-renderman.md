@@ -1,13 +1,13 @@
 ---
 layout: post
-category : opengl
-tags : [opengl, voronoi]
-description : "create voronoi maps with nailboards, use them for point selection"
-thumbnail : VoronoiPicking-masked.png
+tags : [golang, renderman]
+description : "RenderMan bindings for Google's new language <b>go</b>."
+thumbnail : GoLang-masked.png
 ---
 {% include JB/setup %}
 
-For those familiar with the pre-OpenGL 3.0 era of clip planes, using clip planes in today's OpenGL can be a little tricky.
+This Jekyll introduction will outline specifically  what Jekyll is and why you would want to use it.
+Directly following the intro we'll learn exactly _how_ Jekyll does what it does.
 
 ## Overview 
 

@@ -1,8 +1,7 @@
 ---
 layout: post
-category : opengl
-tags : [opengl, clip planes]
-description : "how to use clip planes in 'modern' OpenGL"
+tags : [opengl]
+description : "How to use clip planes in 'modern' OpenGL."
 thumbnail : ClipPlanes-masked.png
 ---
 {% include JB/setup %}

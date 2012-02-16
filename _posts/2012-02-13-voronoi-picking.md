@@ -1,14 +1,12 @@
 ---
 layout: post
-category : lessons
-tags : [intro, beginner, jekyll, tutorial]
-description : "just a test"
-thumbnail : GoLang-masked.png
+tags : [opengl]
+description : "Create voronoi maps with nailboards, use them for point selection."
+thumbnail : VoronoiPicking-masked.png
 ---
 {% include JB/setup %}
 
-This Jekyll introduction will outline specifically  what Jekyll is and why you would want to use it.
-Directly following the intro we'll learn exactly _how_ Jekyll does what it does.
+For those familiar with the pre-OpenGL 3.0 era of clip planes, using clip planes in today's OpenGL can be a little tricky.
 
 ## Overview 
 
