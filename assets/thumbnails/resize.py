@@ -3,7 +3,7 @@ import Image, ImageEnhance, ImageFilter, sys, os
 
 root, ext = os.path.splitext(sys.argv[1])
 
-resized = root + "-resized" + ext
+resized = root.split('-')[0] + "-resized" + ext
 sourcef = root + ext
 
 im = Image.open(sourcef)
