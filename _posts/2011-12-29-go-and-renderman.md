@@ -6,13 +6,24 @@ thumbnail : GoLang-masked.png
 ---
 {% include JB/setup %}
 
-The new staticly-typed language from Google called **Go** might displace C99 as my favorite compiled language.  It has such a pretty syntax, and it's so fast to build stuff, that I'm even considering it in lieu of Python for common scripting tasks.
+The new staticly-typed language from Google called **Go** might displace C99 as my favorite compiled language.  It's so pretty, and so fast, that I'm even considering it in lieu of Python for common scripting tasks.
 
 Minimalism is a core tenant of Go's design, so it doesn't take long to learn.  It uses "channels" as a central concurrency primitive, which is a nifty way to write multithreaded code.  As the language designers like to say: *Don't communicate by sharing memory; share memory by communicating.* 
 
-To try it out, I decided to port some of my old l-system code to Go, and to create Go bindings for a subset of Pixar's RenderMan interface.  Here's one of the first images I created:
+To try it out, I ported some of my old L-system code to Go, and created Go bindings for a subset of Pixar's RenderMan interface.  Here's one of the first images I created:
 
 ![L-System in Go]({{ ASSET_PATH }}/thumbnails/GoLangBig-masked.png)
+
+I've thrown up my new L-system code in [this github project](https://github.com/prideout/lsystem/tree/master/Go), and the Renderman bindings [here](https://github.com/prideout/gorman).
+
+* This will become a table of contents (this text will be scraped).
+{:toc}
+
+{% comment %}
+There MUST be a way to do this in liquid and/or Maruku...
+<a href="#lsystem">link</a>
+<a href="#xml">link</a>
+{% endcomment %}
 
 ## L-System
 
@@ -22,8 +33,8 @@ In my demo, a description of a l-system consists of a maximum recursion depth, a
 import ( "vmath" )
 
 type LSystem struct {
-    MaxDepth int    `xml:"max_depth,attr"`
-    Rules    []Rule `xml:"rule"`
+    MaxDepth int
+    Rules    []Rule
     Matrices MatrixCache
 }
 
@@ -41,7 +52,7 @@ A few things to notice:
 
 ## XML
 
-Parsing the [XML description](http://_) described in my previous posts was a pleasure because the `encoders/xml` package uses reflection to discover how to unmarshal the data.
+Parsing the [XML description](http://prideout.net/blog/?p=44#rules) described in my previous posts was a pleasure because the `encoders/xml` package uses reflection to discover how to unmarshal the data.  Go has a kind of metadata that you can add called **tags**, which are specified with strings in your field declarations.  Here's the same struct again, this time with tags:
 
 {% highlight go %}
 type LSystem struct {
@@ -51,7 +62,38 @@ type LSystem struct {
 }
 {% endhighlight %}
 
-## Next Steps
+I didn't add a tag to `MatrixCache` because it's specified programmatically rather than in XML.
 
-Please take a look at [{{ site.categories.api.first.title }}]({{ BASE_PATH }}{{ site.categories.api.first.url }}) 
-or jump right into [Usage]({{ BASE_PATH }}{{ site.categories.usage.first.url }}) if you'd like.
+Tags are just string literals and don't need to be delimited with backticks; I only used backticks here because I needed double quotes inside my string.  Backticks tell the Go compiler not to honor backslash escapes.
+
+Assuming a struct has been properly annotated with tags, you can unmarshal it like this:
+
+{% highlight go %}
+// Evaluates the rules in the given XML stream and returns a list of curves
+func Evaluate(stream io.Reader) Curve {
+    var curve Curve
+    var lsys LSystem
+	bytes, _ := ioutil.ReadAll(stream)
+    if err := xml.Unmarshal(bytes, &lsys); err != nil {
+        fmt.Println("Error parsing XML file:", err)
+        return curve
+    }
+    // ...
+}
+{% endhighlight %}
+
+## UTF-8
+
+Some of the same people who designed Go also designed UTF-8; they say Go identifiers must start with a "letter", but they really mean any character in the following Unicode categories: Lu, Ll, Lt, Lm, and Lo.  This is especially nify for us graphics developers, who love Greek letters:
+
+{% highlight go %}
+// this is just for fun; there's a math.Pi that you can use
+π := math.Atan(1) * 4 
+ε := 0.0001
+{% endhighlight %}
+
+After discovering this feature in Go, I've become quite adept at using `M-x ucs-insert` in my emacs editor.
+
+## Renderman Bindings
+
+TBD
