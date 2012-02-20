@@ -69,22 +69,16 @@ Tags are just string literals and don't need to be delimited with backticks; I o
 Assuming a struct has been properly annotated with tags, you can unmarshal it like this:
 
 {% highlight go %}
-// Evaluates the rules in the given XML stream and returns a list of curves
-func Evaluate(stream io.Reader) Curve {
-    var curve Curve
-    var lsys LSystem
-	bytes, _ := ioutil.ReadAll(stream)
-    if err := xml.Unmarshal(bytes, &lsys); err != nil {
-        fmt.Println("Error parsing XML file:", err)
-        return curve
-    }
-    // ...
+var lsys LSystem
+if err := xml.Unmarshal(bytes, &lsys); err != nil {
+    fmt.Println("Error parsing XML file:", err)
+    return
 }
 {% endhighlight %}
 
 ## UTF-8
 
-Some of the same people who designed Go also designed UTF-8; they say Go identifiers must start with a "letter", but they really mean any character in the following Unicode categories: Lu, Ll, Lt, Lm, and Lo.  This is especially nify for us graphics developers, who love Greek letters:
+Some of the same people who designed Go also designed UTF-8.  When they that say Go identifiers must start with a "letter", they really mean any character in the following Unicode categories: Lu, Ll, Lt, Lm, and Lo.  This is especially nifty for us graphics developers, since we love Greek letters:
 
 {% highlight go %}
 // this is just for fun; there's a math.Pi that you can use
