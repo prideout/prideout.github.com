@@ -90,4 +90,27 @@ After discovering this feature in Go, I've become quite adept at using `M-x ucs-
 
 ## Renderman Bindings
 
-TBD
+Calling C functions from Go is relatively easy (going the other way around is a bit of a hassle).  go lets you embed the inclusion of C headers like this:
+
+{% highlight go %}
+package rman
+
+// #cgo CFLAGS: -I/opt/pixar/RenderManProServer-16.4/include
+// #cgo LDFLAGS: -L/opt/pixar/RenderManProServer-16.4/lib -lprman -Wl,-rpath /opt/pixar/RenderManProServer-16.4/lib
+// #include <stdlib.h>
+// #include "ri.h"
+import "C"
+
+import (
+    "fmt"
+    "unsafe"
+)
+{% endhighlight %}
+
+## Conclusion
+
+So far I'm loving Go.  I have a couple small gripes.  For example, enumerations aren't totally type-safe since they can be freely exchanged with `int`.  (They do, however, have a cute feature called "iota" -- look it up.)
+
+More importantly, the built-in math package assumes that you want to use 64-bit floats, which isn't ideal when interfacing with graphics API's like OpenGL and RenderMan.  Ideally, a math library could be written using generics, which is another missing feature in Go.
+
+However, I understand that simplicity comes at a price; personally, I'm willing to pay!
