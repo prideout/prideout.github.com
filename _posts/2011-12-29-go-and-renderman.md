@@ -107,10 +107,26 @@ import (
 )
 {% endhighlight %}
 
+You can then call C functions as you'd expect.  Since go is a system-level language, the mapping is fairly simple.  Here's how I wrapped RenderMan's `RiBegin` call:
+
+{% highlight go %}
+func Begin(name string) {
+    if name == "" {
+        C.RiBegin(nil)
+        return
+    }
+    pName := C.CString(name)
+    defer C.free(unsafe.Pointer(pName))
+    C.RiBegin(pName)
+}
+{% endhighlight %}
+
+I suppose I didn't need to use `defer` here, but it seems like a good habit when working with explictly-allocated memory. The defer keyword is an interesting alternative to the RAII paradigm that grew out of languages with exception handling.  Go doesn't have exceptions, which I'm quite happy about.  The language designers added features that do more than enough to compensate.
+
 ## Conclusion
 
-So far I'm loving Go.  I have a couple small gripes.  For example, enumerations aren't totally type-safe since they can be freely exchanged with `int`.  (They do, however, have a cute feature called "iota" -- look it up.)
+So far I'm loving Go, especially when compared to vanilla C.  I have a couple small gripes.  For example, enumerations aren't totally type-safe since they can be freely exchanged with `int`.  They do, however, have a cute feature called `iota` (look it up).
 
 More importantly, the built-in math package assumes that you want to use 64-bit floats, which isn't ideal when interfacing with graphics API's like OpenGL and RenderMan.  Ideally, a math library could be written using generics, which is another missing feature in Go.
 
-However, I understand that simplicity comes at a price; personally, I'm willing to pay!
+I love Go's minimalism so much that I'm willing to live with a few missing features, at least for the time being.
