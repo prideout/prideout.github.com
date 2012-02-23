@@ -16,7 +16,7 @@ As the language designers like to say: *Don't communicate by sharing memory; sha
 
 To try it out, I ported some of my old L-system code to Go, and created Go bindings for a subset of Pixar's RenderMan interface.  Here's one of the first images I created:
 
-![L-System in Go]({{ ASSET_PATH }}/thumbnails/GoLangBig-masked.png)
+[![L-System in Go]({{ ASSET_PATH }}/thumbnails/GoLangBig-masked.png)]({{ ASSET_PATH }}/thumbnails/GoLangHuge.png)
 
 I've thrown up my new L-system code in [this github project](https://github.com/prideout/lsystem/tree/master/Go), and the Renderman bindings [here](https://github.com/prideout/gorman).
 
