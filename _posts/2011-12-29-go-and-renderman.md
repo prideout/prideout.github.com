@@ -127,6 +127,6 @@ I suppose I didn't need to use `defer` here, but it seems like a good habit when
 
 ## KISS
 
-So far I'm loving Go, especially when compared to vanilla C.  My only grip is that the built-in math package assumes you want to use 64-bit floats, which isn't ideal when interfacing with graphics API's like OpenGL and RenderMan.  Ideally, a math library could be written using generics, which is a missing feature in Go.
+So far I'm loving Go, especially when compared to vanilla C.  My only gripe is that the built-in math package assumes you want to use 64-bit floats, which isn't ideal when interfacing with graphics API's like OpenGL and RenderMan.  Ideally, a math library could be written using generics, which is a missing feature in Go.
 
 I love Go's minimalism so much that I'm willing to live with a few missing features, at least for the time being.
