@@ -8,7 +8,9 @@ title: The Little Grasshopper
     <div class="row">
 
       <div class="span3">
-        <img src="{{ BASE_PATH }}/assets/thumbnails/{{ post.thumbnail }}" alt="thumbnail"/>
+        <a style="font-size:125%" href="{{ BASE_PATH }}{{ post.url }}">
+          <img src="{{ BASE_PATH }}/assets/thumbnails/{{ post.thumbnail }}" alt="thumbnail"/>
+        </a>
       </div>
 
       <div class="span9">
