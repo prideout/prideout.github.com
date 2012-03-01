@@ -18,7 +18,7 @@ glDrawArrays(GL_POINTS, 0, strlen(text));
 
 This is legal.  It's important to use the `IPointer` suffix for `glVertexAttrib`, otherwise GL will try to normalize your values instead of passing them straight through.
 
-I did something similar render text on my Toon shading demo:
+I did something similar to render text on my Toon shading demo:
 
 ![SimpleText Screenshot]({{ BASE_PATH }}/assets/thumbnails/SimpleText-halved.png)
 
