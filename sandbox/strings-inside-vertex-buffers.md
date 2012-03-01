@@ -83,7 +83,7 @@ void main()
 }
 {% endhighlight %}
 
-I think something similar could be done to support non-monospace fonts, although it would be less simple.  The characters would need to go into random access memory (eg, a uniform array) instead directly in a vertex buffer.
+I think something similar could be done to support non-monospace fonts, although it would be less simple.  The string would need to live in random access memory (eg, a uniform array) instead of a vertex buffer.
 
 ### OpenGL Demo
 
