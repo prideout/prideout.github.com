@@ -6,6 +6,8 @@ thumbnail : TinyText-masked.png
 ---
 {% include JB/setup %}
 
+### Pass a C string into your draw call
+
 This has got to be the stupidest OpenGL trick ever.  Imagine passing a C-style string directly into a POINTS draw call. No quads, no vertex positions, no texture coordinates; just raw ASCII.  For example:
 
 {% highlight cpp %}
@@ -14,15 +16,17 @@ glVertexAttribIPointer(CharAttrib, 1, GL_UNSIGNED_BYTE, 1, text);
 glDrawArrays(GL_POINTS, 0, strlen(text));
 {% endhighlight %}
 
-This is legal.  It's important to use the `IPointer` variant of `glVertexAttrib`, otherwise GL will try to normalize your values instead of passing them straight through.
+This is legal.  It's important to use the `IPointer` suffix for `glVertexAttrib`, otherwise GL will try to normalize your values instead of passing them straight through.
 
-I used a draw call like this to render text on my Toon shading demo:
+I did something similar render text on my Toon shading demo:
 
 ![SimpleText Screenshot]({{ BASE_PATH }}/assets/thumbnails/SimpleText-halved.png)
 
-I placed most of the logic in a geometry shader that expands the points into quads and computes the correct texture coordinates.  It needs to know the vertex index to place the glyph correctly, so the vertex shader simply passes it the `gl_VertexID`:
+The vertex shader simply passes `gl_VertexID` and the character to the geometry shader:
 
 {% highlight glsl %}
+-- Vertex Shader
+
 in int Character;
 out int vCharacter;
 out int vPosition;
@@ -35,9 +39,11 @@ void main()
 }
 {% endhighlight %}
 
-Here's the geometry shader.  It assumes you're using a monospace font arranged into an atlas with 16 rows and 16 columns.  The first character in the atlas is a space character (ASCII code 32).
+Most of the logic lives in the geometry shader; it expands the points into quads and computes the correct texture coordinates.  It assumes you're using a monospace font arranged into an atlas with 16 rows and 16 columns.  The first character in the atlas is a space character (ASCII code 32).
 
 {% highlight glsl %}
+-- Geometry Shader
+
 layout(points) in;
 layout(triangle_strip, max_vertices = 4) out;
 
@@ -69,15 +75,15 @@ void main()
     float T1 = T0 + CellSize.y;
 
     // Output the quad's vertices:
-    gTexCoord = vec2(S0, T1); gl_Position = P - U - V; EmitVertex();
-    gTexCoord = vec2(S1, T1); gl_Position = P + U - V; EmitVertex();
-    gTexCoord = vec2(S0, T0); gl_Position = P - U + V; EmitVertex();
-    gTexCoord = vec2(S1, T0); gl_Position = P + U + V; EmitVertex();
+    gTexCoord = vec2(S0, T1); gl_Position = P-U-V; EmitVertex();
+    gTexCoord = vec2(S1, T1); gl_Position = P+U-V; EmitVertex();
+    gTexCoord = vec2(S0, T0); gl_Position = P-U+V; EmitVertex();
+    gTexCoord = vec2(S1, T0); gl_Position = P+U+V; EmitVertex();
     EndPrimitive();
 }
 {% endhighlight %}
 
-I think something similar could be done to support non-monospace fonts, although it would be slightly less simple.  The characters need to go into random access memory (eg, a uniform array) instead directly in the vertex buffer.
+I think something similar could be done to support non-monospace fonts, although it would be less simple.  The characters would need to go into random access memory (eg, a uniform array) instead directly in a vertex buffer.
 
 ### OpenGL Demo
 
@@ -88,7 +94,7 @@ I posted the demo code for the Toon-shaded knot with text overlay on github:
 *   [SimpleText.c]({{GITHUB_PATH}}/demo-SimpleText.c)
 *   [SimpleText.glsl]({{GITHUB_PATH}}/demo-SimpleText.glsl)
 
-I used a glyph map created by a cool former colleague from my 3Dlabs days:
+I used a glyph map created by a former colleague from my 3Dlabs days:
 
 *   [verasansmono.png]({{GITHUB_PATH}}/verasansmono.png)
 *   [Mike's old 'drawtext' page](http://mew.cx/drawtext/drawtext.html)
