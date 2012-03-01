@@ -8,7 +8,7 @@ thumbnail : TinyText-masked.png
 
 This has got to be the stupidest OpenGL trick ever.  Imagine passing a C-style string directly into a POINTS draw call. No quads, no vertex positions, no texture coordinates; just raw ASCII.  For example:
 
-{% highlight cpp %
+{% highlight cpp %}
 const char* text = "Hello world.";
 glVertexAttribIPointer(CharAttrib, 1, GL_UNSIGNED_BYTE, 1, text);
 glDrawArrays(GL_POINTS, 0, strlen(text));
