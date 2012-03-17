@@ -21,7 +21,7 @@ vec2 Distort(vec2 p)
     p.y = radius * sin(theta);
     return 0.5 * (p + 1.0);
 }
-{% highlight glsl %}
+{% endhighlight %}
 
 This function transforms the input into polar coordinates, tweaks the radius, then converts it back to texture space.
 
@@ -47,7 +47,7 @@ If you're stuck with a texture-based approach and you need to fix poor sampling,
 
 Another idea is to use tiled rendering; each tile would have the same resolution, but the viewport sizes would vary according to the image:
 
-[![Screenshot]({{ ASSET_PATH }}/thumbnails/Distortion5.png)](http://https://github.com/prideout/distortion/raw/master/media/NonuniformGrid.png)
+[![Screenshot]({{ ASSET_PATH }}/thumbnails/Distortion5.png)](https://github.com/prideout/distortion/raw/master/media/NonuniformGrid.png)
 
 This would give you more samples in the center of the image, where you need them.  You can perform clipping in the projection matrix:
 
