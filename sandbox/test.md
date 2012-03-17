@@ -6,9 +6,7 @@ thumbnail : Distortion-masked.png
 ---
 {% include JB/setup %}
 
-<div markdown="1" style="border: solid 1px black">
-Note: the OpenGL code used to generate these screenshots lives in [this github project](http://github.com/prideout/distortion) for your enjoyment.
-</div>
+**Note: the OpenGL code used to generate these screenshots lives in [this github project](http://github.com/prideout/distortion) for your enjoyment.**
 
 ### Fisheye Lens
 
