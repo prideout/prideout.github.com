@@ -6,9 +6,11 @@ thumbnail : Distortion-masked.png
 ---
 {% include JB/setup %}
 
-### Fisheye Lens
+<div markdown="1" style="border: solid 1px black">
+Note: the OpenGL code used to generate these screenshots lives in [this github project](http://github.com/prideout/distortion) for your enjoyment.
+</div>
 
-The OpenGL code used to generate these screenshots lives in [this github project](http://github.com/prideout/distortion) for your enjoyment.
+### Fisheye Lens
 
 Barrel distortion simulates a fisheye lens by changing the magnification factor according to polar distance.  Often the magnification is proportional to the squared distance.  Here's a GLSL snippet that performs barrel distortion:
 
