@@ -8,9 +8,7 @@ thumbnail : Distortion-masked.png
 
 ### Fisheye Lens
 
-{% assign GITHUB_PATH = 'https://github.com/prideout/distortion/blob/master' %}
-
-The OpenGL code used to generate these screenshots lives in [this github project]({{GITHUB_PATH}}) for your enjoyment.
+The OpenGL code used to generate these screenshots lives in [this github project](http://github.com/prideout/distortion) for your enjoyment.
 
 Barrel distortion simulates a fisheye lens by changing the magnification factor according to polar distance.  Often the magnification is proportional to the squared distance.  Here's a GLSL snippet that performs barrel distortion:
 
@@ -51,7 +49,7 @@ On a modern GPU we can employ a simple tessellation shader, performing distortio
 
 If you're stuck with a texture-based approach and you need to fix poor sampling, one idea is performing a custom high-quality filter (e.g., Gaussian) in your fragment shader, instead of relying on the crude bilinear filtering that the hardware provides.
 
-Another idea is to use tiled rendering; each tile would have the same resolution, but the viewport sizes would vary according to the image:
+Another idea is to use tiled rendering; each tile would have the same resolution, but the viewport sizes would vary according to distance-from-center:
 
 [![Screenshot]({{ ASSET_PATH }}/thumbnails/Distortion5.png)](https://github.com/prideout/distortion/raw/master/media/NonuniformGrid.png)
 
@@ -60,13 +58,3 @@ This would give you more samples in the center of the image, where you need them
 TBD
 
 Rendering each tile would...
-
-### OpenGL Demo
-
-The OpenGL code used to generate these screenshots lives in [this github project]({{GITHUB_PATH}}) for your enjoyment.  Highlights include:
-
-*   [TextureWarping.c]({{GITHUB_PATH}}/TextureWarping-Gridless.c)
-*   [TextureWarping.glsl]({{GITHUB_PATH}}/TextureWarping-Gridless.glsl)
-*   [TessWarping.c]({{GITHUB_PATH}}/TessWarping.c)
-*   [TessWarping.glsl]({{GITHUB_PATH}}/TessWarping.glsl)
-
