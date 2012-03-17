@@ -39,7 +39,11 @@ Here's the original image:
 
 One issue with this approach is poor sampling at high magnification, resulting in fuzziness towards the center.  The same problem crops up when performing distortion in the fragment shader.
 
-One solution is performing distortion in the vertex shader.  This gives a clean result, although coarsely-tessellated models will have straight edges, and they'll suffer from snapping artifacts during animation.  Here's a test of vertex shader distortion:
+The fuzziness can be improved somewhat with a custom high-quality filter (e.g., Gaussian) in your fragment shader, instead of relying on the crude bilinear filtering that the hardware provides.
+
+### Vertex-Based Techniques
+
+Another possibility is performing distortion in the vertex shader.  This gives a clean result, although coarsely-tessellated models will have straight edges, and they'll suffer from snapping artifacts during animation.  Here's a test of vertex shader distortion:
 
 [![Screenshot]({{ ASSET_PATH }}/thumbnails/Distortion3.png)](https://github.com/prideout/distortion/raw/master/media/VertexWarpingResult.png)
 
@@ -47,14 +51,31 @@ On a modern GPU we can employ a simple tessellation shader, performing distortio
 
 [![Screenshot]({{ ASSET_PATH }}/thumbnails/Distortion4.png)](https://github.com/prideout/distortion/raw/master/media/TessWarpingResult.png)
 
-If you're stuck with a texture-based approach and you need to fix poor sampling, one idea is performing a custom high-quality filter (e.g., Gaussian) in your fragment shader, instead of relying on the crude bilinear filtering that the hardware provides.
+### Tiled Rendering
 
-Another idea is to use tiled rendering; each tile would have the same resolution, but the viewport sizes would vary according to distance-from-center:
+If you're stuck with texture-based deformation and you need to improve the sampling rate at any cost, one crazy idea is to use tiled rendering.  This is a technique often used for offline rendering; you render your scene in many passes, snipping out a portion of the viewing frustum using a special projection matrix.
+
+To help with sampling issues in barrel distortion, each off-screen tile would have the same resolution, but the viewport sizes would vary according to distance-from-center, as visualized here:
 
 [![Screenshot]({{ ASSET_PATH }}/thumbnails/Distortion5.png)](https://github.com/prideout/distortion/raw/master/media/NonuniformGrid.png)
 
-This would give you more samples in the center of the image, where you need them.  You can perform clipping in the projection matrix:
+The projection matrix magic for snipping out a portion of the viewing frustum is the same as a *pick matrix*:
 
-TBD
-
-Rendering each tile would...
+{% highlight cpp %}
+// x and y specify the center of a picking region in window coordinates
+// width and height specify the size of the picking region in window coordinates
+// viewport is what's returned by glGetIntegerv(GL_VIEWPORT, ...)
+Matrix4 M4PickMatrix(GLfloat x, GLfloat y, GLfloat width, GLfloat height, GLint* viewport)
+{
+    float sx = viewport[2] / width;
+	float sy = viewport[3] / height;
+    float tx = (viewport[2] + 2.f * (viewport[0] - x)) / width;
+    float ty = (viewport[3] + 2.f * (viewport[1] - y)) / height;
+    Matrix4 m;
+    m.col0.x = sx; m.col0.y = 0.f; m.col0.z = 0.f; m.col0.w = tx;
+    m.col1.x = 0.f; m.col1.y = sy; m.col1.z = 0.f; m.col1.w = ty;
+    m.col2.x = 0.f; m.col2.y = 0.f; m.col2.z = 1.f; m.col2.w = 0.f;
+    m.col3.x = 0.f; m.col3.y = 0.f; m.col3.z = 0.f; m.col3.w = 1.f;
+	return m;
+}
+{% endhighlight %}
