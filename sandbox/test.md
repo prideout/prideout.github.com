@@ -80,7 +80,7 @@ Matrix4 M4PickMatrix(GLfloat x, GLfloat y, GLfloat width, GLfloat height, GLint*
 }
 {% endhighlight %}
 
-I'm going off the deep end here though.  If you really want to avoid bad sampling, you should simply go with a vertex-based approach:
+Using tiled rendering to deal with sampling artifacts is crazy though.  If you really want to avoid bad sampling, you should probably simply go with a vertex-based approach.  Feel free to steal from my code:
 
 {% assign GITHUB_PATH = 'https://github.com/prideout/distortion/blob/master' %}
 
@@ -88,5 +88,3 @@ I'm going off the deep end here though.  If you really want to avoid bad samplin
 *   [VertexWarping.glsl]({{GITHUB_PATH}}/VertexWarping.glsl), [VertexWarping.c]({{GITHUB_PATH}}/VertexWarping.c)
 
 Have fun!
-
-
