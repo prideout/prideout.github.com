@@ -1,48 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>{{ page.title }}</title>
-    {% if page.description %}<meta name="description" content="{{ page.description }}">{% endif %}
-    <meta name="author" content="{{ site.author.name }}">
-
-    <script type="text/javascript" src="http://use.typekit.com/lbw8qvs.js"></script>
-    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
-
-    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-    <script src="http://github.com/javascripts/other/MathJax/MathJax.js" type="text/javascript"> 
-      if (window.location.protocol == "https:") { 
-          MathJax.OutputJax.fontDir = "https://github.com/assets/MathJax/fonts" 
-      } else { 
-          MathJax.OutputJax.fontDir = "http://github.com/assets/MathJax/fonts" 
-      } 
-      MathJax.Hub.Config({ 
-           extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"], 
-           jax: ["input/TeX", "output/HTML-CSS"] 
-      }) 
-    </script>
-
-    <link href="{{ ASSET_PATH }}/css/1.4.0/bootstrap.css" rel="stylesheet">
-    <link href="{{ ASSET_PATH }}/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
-    <link href="{{ ASSET_PATH }}/css/syntax.css" rel="stylesheet">
-
-    <link rel="shortcut icon" href="http://prideout.net/favicon.ico">
-    <!--link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png"-->
-
-  </head>
-
-  <body>
-
-    <div class="container" style="margin-top:-50px">
-      <div class="row">
-        <div class="span4">
-          <a href="{{ HOME_PATH }}">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
    xmlns:svg="http://www.w3.org/2000/svg"
@@ -224,42 +181,3 @@
      id="path3834"
      style="font-size:22.39999962px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#508738;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:AvantGarde Md BT;-inkscape-font-specification:AvantGarde Md BT" /></g>
 </g></svg>
-
-          </a>
-        </div>
-      </div>
-    </div>
-    
-    <div class="container">
-      <div class="content tk-ff-nuvo-web-pro">
-        {{ content }}
-      </div>
-      <footer style="margin-top:0px">
-
-        <p>
-          <a style="padding-right: 20px" href="{{ HOME_PATH }}">[home]</a>
-          <a style="padding-right: 20px" href="http://prideout.net/blog">[older]</a>
-          <a style="padding-right: 20px" href="http://prideout.net/archive/vita.html">[bio]</a>
-          <a style="padding-right: 20px" href="http://github.com/prideout">[github]</a>
-          <a style="padding-right: 20px" href="http://github.prideout.net/atom.xml">[rss]</a>
-        </p>
-
-        <!--
-        <p>
-          Entries from 2011 (or before) can be seen on
-          <a href="http://prideout.net/blog">
-            my wordpress site</a>.
-        </p>
-        <p>
-          This page and all accompanying code licensed under
-          <a href="http://creativecommons.org/licenses/by/3.0/">
-            Creative Commons Attribution 3.0</a>.
-        </p>
-        -->
-
-      </footer>
-    </div>
-
-    {% include JB/analytics %}
-  </body>
-</html>
