@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: post
 tags : [opengl]
 description : "Playing with barrel distortion."
 thumbnail : Distortion-masked.png
