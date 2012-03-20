@@ -15,7 +15,7 @@ title: The Little Grasshopper
 
       <div class="span9">
         <a style="font-size:150%" href="{{ BASE_PATH }}{{ post.url }}">
-          <strong class="PostTitle nuvo">{{ post.title }}</strong>
+          <strong class="PostTitle">{{ post.title }}</strong>
         </a>
         <p style="font-size:125%">
           {{ post.description }}
