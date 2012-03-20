@@ -6,18 +6,16 @@ title: The Little Grasshopper
   {% for post in site.posts %}
   <li>
     <div class="row">
-
       <div class="span3">
         <a href="{{ BASE_PATH }}{{ post.url }}">
           <img src="{{ BASE_PATH }}/assets/thumbnails/{{ post.thumbnail }}" alt="thumbnail"/>
         </a>
       </div>
-
       <div class="span9">
-        <a style="font-size:150%" href="{{ BASE_PATH }}{{ post.url }}">
-          <strong class="PostTitle">{{ post.title }}</strong>
+        <a class="PostTitle" style="font-size:22px" href="{{ BASE_PATH }}{{ post.url }}">
+          <strong>{{ post.title }}</strong>
         </a>
-        <p style="font-size:125%">
+        <p class="PostDesc" style="font-size:18px;color:#0a0a0a;margin-top:2px">
           {{ post.description }}
         </p>
         <span>
@@ -27,9 +25,7 @@ title: The Little Grasshopper
           {% endfor %}
         </span>
       </div>
-
     </div> <!-- end the row -->
-
     <hr/>
   </li>
   {% endfor %}
