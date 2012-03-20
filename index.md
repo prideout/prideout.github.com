@@ -8,19 +8,19 @@ title: The Little Grasshopper
     <div class="row">
 
       <div class="span3">
-        <a style="font-size:125%" href="{{ BASE_PATH }}{{ post.url }}">
+        <a href="{{ BASE_PATH }}{{ post.url }}">
           <img src="{{ BASE_PATH }}/assets/thumbnails/{{ post.thumbnail }}" alt="thumbnail"/>
         </a>
       </div>
 
       <div class="span9">
-        <a style="font-size:125%" href="{{ BASE_PATH }}{{ post.url }}">
-          <strong>{{ post.title }}</strong>
+        <a style="font-size:150%" href="{{ BASE_PATH }}{{ post.url }}">
+          <strong class="PostTitle">{{ post.title }}</strong>
         </a>
-        <p style="font-size:100%">
+        <p style="font-size:125%">
           {{ post.description }}
         </p>
-        <span style="font-size:75%">
+        <span>
           {{ post.date | date: "%Y-%m-%d" }} |
           {% for tag in post.tags %}
               {{ tag }}
