@@ -2,10 +2,15 @@
 layout: page
 title: The Little Grasshopper
 ---
-<ul class="posts" style="list-style-type:none;" >
+<ul class="posts" style="list-style-type:none;">
   {% for post in site.posts %}
   <li>
-    <a href="{{ BASE_PATH }}{{ post.url }}" class="clicktile">
+    <a href="{{ BASE_PATH }}{{ post.url }}" >
+
+      <style type="text/css">
+        A:hover {text-decoration: none}
+      </style>
+
       <div class="row">
         <div class="span3">
           <img src="{{ BASE_PATH }}/assets/thumbnails/{{ post.thumbnail }}" alt="thumbnail"/>

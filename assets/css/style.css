@@ -14,10 +14,10 @@ body {
 
 /* The white background content wrapper */
 .content {
-  background-color: #f3f3f3;
+  background-color: #efefed;
   padding: 20px;
   margin: 0 -20px; /* negative indent the amount of the padding to maintain the grid system */
-  border:1px solid #4C964D;
+  border:5px solid #413934;
 }
 
 /* Page header tweaks */
