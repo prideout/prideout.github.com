@@ -135,7 +135,7 @@
    id="Selector"
    style="fill:#ffd42a;stroke:#000000;stroke-width:2.75124598;fill-opacity:0; stroke-opacity:0"
 >
-   <set attributeName="fill-opacity" to="0.5" begin="hoverrect.mouseover" end="hoverrect.mouseout"/>
+   <!--set attributeName="fill-opacity" to="0.5" begin="hoverrect.mouseover" end="hoverrect.mouseout"/-->
 </rect>
 
 <g
@@ -199,10 +199,18 @@
    id="g64"><g
      clip-path="url(#clipPath68-2)"
      id="g66"><g
-       id="g72"><path
+       id="g72">
+
+<!-- Eye -->
+<!--set attributeName="fill-opacity" to="0.5" begin="hoverrect.mouseover" end="hoverrect.mouseout"/-->
+<path
          d="m 456.9369,327.1663 c 1.8978,0 3.4371,-1.5392 3.4371,-3.437 0,-1.8981 -1.5393,-3.437 -3.4371,-3.437 -1.898,0 -3.437,1.5389 -3.437,3.437 0,1.8978 1.539,3.437 3.437,3.437"
          id="path80"
-         style="fill:url(#radialGradient74-668-4);fill-rule:evenodd;stroke:none" /></g></g></g><text
+         style="fill:url(#radialGradient74-668-4);fill-rule:evenodd;stroke:none">
+<set attributeName="stroke" to="#000" begin="hoverrect.mouseover" end="hoverrect.mouseout"/>
+</path>
+
+</g></g></g><text
    transform="matrix(1,0,0,-1,216.1888,259.9047)"
    id="text82"
    style="line-height:125%;display:none"><tspan
