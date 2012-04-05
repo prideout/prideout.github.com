@@ -3,14 +3,16 @@ layout: page
 title: The Little Grasshopper
 ---
 <ul class="posts" style="list-style-type:none;">
+  <style type="text/css">
+    a:hover {text-decoration: none}
+    div.content {padding: 0px}
+  </style>
   {% for post in site.posts %}
-  <li>
+  <li id="{{ post.id | remove:'/' }}" style="padding-top:20px;padding-bottom:20px">
+    <style type="text/css">
+      li#{{ post.id | remove:'/' }}:hover { background-color: #fff }
+    </style>
     <a href="{{ BASE_PATH }}{{ post.url }}" >
-
-      <style type="text/css">
-        A:hover {text-decoration: none}
-      </style>
-
       <div class="row">
         <div class="span3">
           <img src="{{ BASE_PATH }}/assets/thumbnails/{{ post.thumbnail }}" alt="thumbnail"/>
@@ -30,7 +32,6 @@ title: The Little Grasshopper
         </div>
       </div> <!-- end the row -->
     </a>
-    <hr/>
   </li>
   {% endfor %}
 </ul>
