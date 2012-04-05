@@ -53,4 +53,14 @@ void main()
 }
 {% endhighlight %}
 
+If you've got a geometry shader enabled, you'll need to pass it through there too:
+
+{% highlight glsl %}
+gl_ClipDistance[0] = gl_in[0].gl_ClipDistance[0];
+EmitVertex();
+gl_ClipDistance[1] = gl_in[0].gl_ClipDistance[1];
+EmitVertex();
+...
+{% endhighlight %}
+
 Enjoy!
