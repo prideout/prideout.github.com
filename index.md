@@ -15,7 +15,7 @@ title: The Little Grasshopper
     <a href="{{ BASE_PATH }}{{ post.url }}" >
       <div class="row">
         <div class="span3">
-          <img src="{{ BASE_PATH }}/assets/thumbnails/{{ post.thumbnail }}" alt="thumbnail"/>
+          <img src="{{ BASE_PATH }}/assets/thumbnails/{{ post.thumbnail }}" alt="thumbnail" style="width:128px;height:72px;"/>
         </div>
         
         <div class="span9">
