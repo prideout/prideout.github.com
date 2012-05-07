@@ -11,7 +11,7 @@ test_url : http://0.0.0.0:4000/sandbox/ipad-test.html
 
 One way to play with tessellation shaders in OpenGL is by evaluating various parametric functions on the GPU.  You can find plenty of parametric equations on the web, but I thought it would be fun to derive some interesting equations from scratch using a symbolic math package.
 
-I didn't want to shell out the cash for Mathematica so I looked around for open source solutions and settled on <a href="http://code.google.com/p/sympy/">SymPy</a>.  Overall it feels much less mature than commercial packages -- I can hang or crash it pretty easily, especially whren I call <b>simplify</b>.  But, it has a nice Pythonic API.
+I didn't want to shell out the cash for Mathematica so I looked around for open source solutions and settled on <a href="http://code.google.com/p/sympy/">SymPy</a>.  Overall it feels much less mature than commercial packages -- I can hang or crash it pretty easily, especially when I call <b>simplify</b>.  But, it has a nice Pythonic API.
 
 The parametric equation for a standard Torus is easy enough to find on the interwebs, but it's a good starting point for our exercise.  Let's derive the parametric equation for a torus that has ridges, like this:
 
