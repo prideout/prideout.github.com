@@ -9,91 +9,192 @@ test_url : http://0.0.0.0:4000/sandbox/ipad-test.html
 
 **The OpenGL and Python code used to generate these images lives in [this github project](https://github.com/prideout/sympy-fun).**
 
-Barrel distortion simulates a fisheye lens by changing the magnification factor according to polar distance.  Often the magnification is proportional to the squared distance.  Here's a GLSL snippet that performs barrel distortion:
+One way to play with tessellation shaders in OpenGL is by evaluating various parametric functions on the GPU.  Computer algebra systems (e.g., Mathematica) make it easy to compose equations for interesting surfaces.
 
-{% highlight glsl %}
-uniform float BarrelPower;
+I didn't want to shell out the cash for Mathematica so I looked around for a decent free symbolic math package and settled on <a href="http://code.google.com/p/sympy/">SymPy</a>.
 
-// Given a vec2 in [-1,+1], generate a texture coord in [0,+1]
-vec2 Distort(vec2 p)
-{
-    float theta  = atan(p.y, p.x);
-    float radius = length(p);
-    radius = pow(radius, BarrelPower);
-    p.x = radius * cos(theta);
-    p.y = radius * sin(theta);
-    return 0.5 * (p + 1.0);
-}
-{% endhighlight %}
-
-This function transforms the input into polar coordinates, tweaks the radius, then converts it back to texture space.
-
-In olden times before shaders, barrel distortion could be achieved by simply rendering the scene into a texture, then applying the texture to a 2D grid of vertices.  The grid would look something like this after the pushing around the verts:
-
-<a href="{{ ASSET_PATH }}/thumbnails/sympy-surfaces/SimpleTorusSurface.png">
-<img alt="Simple Torus Surface" src="{{ ASSET_PATH }}/thumbnails/sympy-surfaces/SimpleTorusSurface.png" style="width:365px;height:218px">
-</a>
-
-Here's the source image:
+The parametric equation for a standard Torus is easy enough to find on the interwebs, but it's a good starting point for our exercise.  Let's derive the parametric equation for a torus that has ridges:
 
 <a href="{{ ASSET_PATH }}/thumbnails/sympy-surfaces/RidgedTorusSurface.png">
 <img alt="Ridged Torus" src="{{ ASSET_PATH }}/thumbnails/sympy-surfaces/RidgedTorusSurface.png" style="width:375px;height:229px">
 </a>
 
-One issue with this approach is poor sampling at high magnification, resulting in fuzziness towards the center.  The same problem crops up when performing distortion in the fragment shader.
+In SymPy, the <b>Matrix</b> class is an all-encompassing class that can represent matrices, vectors, and vector-valued functions.  I found it convenient to create some helper functions with terse names:
 
-The fuzziness can be improved somewhat with a custom high-quality filter (e.g., Gaussian) in the fragment shader, instead of relying on the crude bilinear filtering that the hardware provides.
+{% highlight python %}
+from sympy.matrices import *
 
-### Vertex-Based Techniques
+def VVF(*args):
+    """Quicky construct a vector-valued function"""
+    return Matrix(args)
 
-Another possibility is performing distortion in the vertex shader.  This gives a clean result, although coarsely-tessellated models will have straight edges, and they'll suffer from snapping artifacts during animation.  Here's a test of vertex shader distortion:
+def DVVF(m, variable):
+    """Find a partial derivative of a vector-valued function"""
+    return m.applyfunc(lambda f: diff(f,variable))
+
+def PrintVVF(label, vvf):
+    """ Print a vector-valued using C syntax """
+    print '// ' + label
+    print "float x =", ccode(vvf[0]) + ";"
+    print "float y =", ccode(vvf[1]) + ";"
+    print "float z =", ccode(vvf[2]) + ";"
+{% endhighlight %}
+
+One advantage of deriving the torus equation from scratch is that we can easily come up with an analytic solution for computing the normal vector at an arbitrary point:
+
+{% highlight python %}
+def NormalFunc(f):
+    """Takes a vector-valued function of u and v"""
+    """Computes formula for determining the surface normal at any point"""
+    dfdu = DVVF(f, u)
+    dfdv = DVVF(f, v)
+    return dfdu.cross(dfdv)
+{% endhighlight %}
+
+To compute the parametric equation of a torus, we need a general way to sweep a circle along an arbitrary curve.  We can use the Gram-Schmidt orthogonalization to formulate the Frenet frame:
+
+{% highlight python %}
+u, v = symbols('u v', positive=True)
+
+def Sweep(sweepCurve, crossSection):
+    """ Takes two vector-valued functions:        """
+    """ - sweepCurve is a function of u           """
+    """ - crossSection is a function of v         """
+    """ Returns a new vector-valued function      """
+    """ that represents the composition of these. """
+    # Compute first-order and second-order derivatives:
+    d = DVVF(sweepCurve,u)
+    dd = DVVF(d,u)
+    # Perform Gram-Schmidt orthogonalization:
+    t = d
+    n = dd - t * dd.dot(t)
+    b = t.cross(n).transpose()
+    # Formulate the Frenet Frame:
+    curveBasis = t.row_join(n).row_join(b)
+    # Transform the cross section to the curve's space:
+    s = sweepCurve + curveBasis * crossSection
+    return s
+{% endhighlight %}
+
+We can now easily the derive the parametric equation for the ridged torus.  The sweep curve is just a circle with radius <b>R</b>, and the cross section is a circle with radius <b>r</b>.  To achieve the ridges, we'll deform <b>r</b> using a sine wave:
+
+{% highlight python %}
+# Vector-valued function that draws a circle on the Y-Z plane.
+def CircleYZ(radius):
+    return VVF(0, -radius*cos(v), radius*sin(v))
+
+# Derive the formula for a ridged torus:
+r, R = symbols('r R', positive=True)
+h, f = symbols('h f')
+sweepCurve = VVF(R*cos(u), R*sin(u), 0)
+crossSection = CircleYZ(r + h*sin(u*f))
+surface = Sweep(sweepCurve, crossSection)
+normals = NormalFunc(surface)
+PrintVVF('Ridged Torus Surface', surface)
+PrintVVF('Ridged Torus Normals', normals)
+{% endhighlight %}
+
+The output should look something like this:
+
+{% highlight cpp %}
+// Ridged Torus Surface
+float x = R*cos(u) + (h*sin(f*u) + r)*cos(u)*cos(v);
+float y = R*sin(u) + (h*sin(f*u) + r)*sin(u)*cos(v);
+float z = (h*sin(f*u) + r)*sin(v);
+
+// Ridged Torus Normals
+float x = -f*h*(h*sin(f*u) + r)*sin(u)*pow(cos(v), 2)*cos(f*u) + f*h*(h*sin(f*u) + r)*sin(u)*cos(f*u) + (h*sin(f*u) + r)*(R*cos(u) + f*h*sin(u)*cos(v)*cos(f*u) + (h*sin(f*u) + r)*cos(u)*cos(v))*cos(v);
+float y = f*h*(h*sin(f*u) + r)*cos(u)*pow(cos(v), 2)*cos(f*u) - f*h*(h*sin(f*u) + r)*cos(u)*cos(f*u) + (-h*sin(f*u) - r)*(-R*sin(u) + f*h*cos(u)*cos(v)*cos(f*u) + (-h*sin(f*u) - r)*sin(u)*cos(v))*cos(v);
+float z = (-h*sin(f*u) - r)*(-R*sin(u) + f*h*cos(u)*cos(v)*cos(f*u) + (-h*sin(f*u) - r)*sin(u)*cos(v))*sin(u)*sin(v) + (h*sin(f*u) + r)*(R*cos(u) + f*h*sin(u)*cos(v)*cos(f*u) + (h*sin(f*u) + r)*cos(u)*cos(v))*sin(v)*cos(u);
+{% endhighlight %}
+
+The equation for the surface itself isn't a surpising result, but it's pretty cool to see an analytic solution for the normal vectors as well!
+
+### Superellipse Cross Section
+
+For the cross-section curve, let's try something more interesting than a circle.  How about a <a href="http://en.wikipedia.org/wiki/Superellipse">superellipse</a>:
 
 <a href="{{ ASSET_PATH }}/thumbnails/sympy-surfaces/SuperellipseTorusSurface.png">
 <img alt="Superellipse Torus" src="{{ ASSET_PATH }}/thumbnails/sympy-surfaces/SuperellipseTorusSurface.png" style="width:393px;height:167px">
 </a>
 
-On a modern GPU we can employ a simple tessellation shader, performing distortion in the subdivided mesh.  This allows for curved edges:
+Since it's just another swept surface, it's just as easy to derive as the ridged torus:
+
+{% highlight python %}
+# Vector-valued function that draws a superellipse on the Y-Z plane.
+def SuperellipseYZ(n, a, b):
+    x = (Abs(cos(v)) ** (2/n)) * a * sign(cos(v))
+    y = (Abs(sin(v)) ** (2/n)) * b * sign(sin(v))
+    return VVF(0, -x, y)
+
+# Derive the formula for a squircle torus:
+r, R = symbols('r R', positive=True)
+n = symbols('n')
+sweepCurve = VVF(R*cos(u), R*sin(u), 0)
+crossSection = SuperellipseYZ(n, 0.5, 0.5)
+surface = Sweep(sweepCurve, crossSection)
+normals = NormalFunc(surface)
+PrintVVF('Superellipse Torus Surface', surface)
+PrintVVF('Superellipse Torus Normals', normals)
+{% endhighlight %}
+
+The resulting formulae are reasonably-sized:
+
+{% highlight cpp %}
+// Superellipse Torus Surface
+float x = (R - pow(cos(v), 2)*sign(cos(v))/4)*cos(u);
+float y = (R - pow(cos(v), 2)*sign(cos(v))/4)*sin(u);
+float z = pow(sin(v), 2)*sign(sin(v))/4;
+
+// Superellipse Torus Normals
+float x = (R/2 - pow(cos(v), 2)*sign(cos(v))/8)*sin(v)*cos(u)*cos(v)*sign(sin(v));
+float y = (R/2 - pow(cos(v), 2)*sign(cos(v))/8)*sin(u)*sin(v)*cos(v)*sign(sin(v));
+float z = (-R/2 + pow(cos(v), 2)*sign(cos(v))/8)*sin(v)*cos(v)*sign(cos(v));
+{% endhighlight %}
+
+### Möbius Tube
+
+If we squish the superellipse torus and rotate its cross section, we can generate a nice Möbius Tube.  Here's the result, cut in half for clarity:
 
 <a href="{{ ASSET_PATH }}/thumbnails/sympy-surfaces/SuperellipseMobiusSurface.png">
 <img alt="Superellipse Mobius" src="{{ ASSET_PATH }}/thumbnails/sympy-surfaces/SuperellipseMobiusSurface.png" style="width:358px;height:125px">
 </a>
 
-### Tiled Rendering
+We can re-use the above <b>SuperellipseYZ</b> function and add a rotation function to make this easier.  Here's one way of doing it:
 
-If you're stuck with texture-based deformation and you need to improve the sampling rate at any cost, one crazy idea is to use tiled rendering.  This is a technique often used for offline rendering -- it renders the scene in many passes, snipping out a portion of the viewing frustum at each pass using a special projection matrix.
+{% highlight python %}
+# Rotates the given vector-valued function along the X-axis
+def RotateX(f, q):
+    y = f[1] * cos(q) - f[2] * sin(q)
+    z = f[1] * sin(q) + f[2] * cos(q)
+    x = f[0]
+    return VVF(x, y, z)
 
-To help with sampling issues in barrel distortion, each off-screen tile has the same resolution, but the viewport sizes vary according to distance-from-center, as visualized here:
+sweepCurve = VVF(R*cos(u), R*sin(u), 0)
+n = symbols('n')
+crossSection = SuperellipseYZ(n, 0.5, 0.125)
+crossSection = RotateX(crossSection, u / 2)
+surface = Sweep(sweepCurve, crossSection)
+PrintVVF('Superellipse Mobius Surface', surface)
+{% endhighlight %}
+
+And, here's the result:
+
+{% highlight cpp %}
+// Superellipse Mobius Surface
+float x = R*cos(u) - (-0.0625*pow(sin(v), 2)*sin(2*v)*sign(sin(v)) + pow(cos(v), 2)*cos(2*v)*sign(cos(v))/4)*cos(u);
+float y = R*sin(u) - (-0.0625*pow(sin(v), 2)*sin(2*v)*sign(sin(v)) + pow(cos(v), 2)*cos(2*v)*sign(cos(v))/4)*sin(u);
+float z = (0.0625*pow(sin(v), 2)*cos(2*v)*sign(sin(v)) + sin(2*v)*pow(cos(v), 2)*sign(cos(v))/4)*(pow(sin(u), 2) + pow(cos(u), 2));
+{% endhighlight %}
+
+SymPy had trouble computing the partial derivatives in this case.  Unfortunately, I found it pretty easy to run against its limitations, especially when I tried complex sweep curves.
+
+It's okay that we weren't able to compute a one-shot formula for the Mobius tube's normals, because the shader can use forward differencing, as we'll see in the next section.
+
+### Rendering Parametric Surfaces with Tessellation Shaders
 
 <a href="{{ ASSET_PATH }}/thumbnails/sympy-surfaces/SpiralSurface.png">
 <img alt="Spiral Surface" src="{{ ASSET_PATH }}/thumbnails/sympy-surfaces/SpiralSurface.png" style="width:246px;height:241px">
 </a>
 
-The projection matrix magic for snipping out a portion of the viewing frustum is the same as a *pick matrix*:
-
-{% highlight cpp %}
-// x and y specify the center of a picking region in window coordinates
-// width and height specify the size of the picking region in window coordinates
-// viewport is what's returned by glGetIntegerv(GL_VIEWPORT, ...)
-Matrix4 M4PickMatrix(GLfloat x, GLfloat y, GLfloat width, GLfloat height, GLint* viewport)
-{
-    float sx = viewport[2] / width;
-    float sy = viewport[3] / height;
-    float tx = (viewport[2] + 2.f * (viewport[0] - x)) / width;
-    float ty = (viewport[3] + 2.f * (viewport[1] - y)) / height;
-    Matrix4 m;
-    m.col0.x = sx; m.col0.y = 0.f; m.col0.z = 0.f; m.col0.w = tx;
-    m.col1.x = 0.f; m.col1.y = sy; m.col1.z = 0.f; m.col1.w = ty;
-    m.col2.x = 0.f; m.col2.y = 0.f; m.col2.z = 1.f; m.col2.w = 0.f;
-    m.col3.x = 0.f; m.col3.y = 0.f; m.col3.z = 0.f; m.col3.w = 1.f;
-    return m;
-}
-{% endhighlight %}
-
-Using tiled rendering to deal with sampling artifacts is crazy though.  If you really want to avoid bad sampling, you should probably simply go with a vertex-based approach.  Feel free to steal from my code:
-
-{% assign GITHUB_PATH = 'https://github.com/prideout/distortion/blob/master' %}
-
-*   [TessWarping.glsl]({{GITHUB_PATH}}/TessWarping.glsl), [TessWarping.c]({{GITHUB_PATH}}/TessWarping.c)
-*   [VertexWarping.glsl]({{GITHUB_PATH}}/VertexWarping.glsl), [VertexWarping.c]({{GITHUB_PATH}}/VertexWarping.c)
-
-Have fun!
+TBD

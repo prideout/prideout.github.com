@@ -21,7 +21,7 @@ def create(outfilename, fig_size):
     cr = cairo.Context(surface)
     cr.set_line_width(3)
     cr.set_source_rgb(1,1,1)
-    draw_rounded(cr, inside_area, 10)
+    draw_rounded(cr, inside_area, 50)
     surface.write_to_png(outfilename)
 
 root, ext = os.path.splitext(sys.argv[1])
