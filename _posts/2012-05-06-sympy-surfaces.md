@@ -191,7 +191,7 @@ SymPy had trouble computing the partial derivatives in this case.  Unfortunately
 
 It's okay that we weren't able to compute a one-shot formula for the Mobius tube's normals, because the shader can use forward differencing, as we'll see in the next section.
 
-### Rendering Surfaces With Zero Input Vertices
+### Rendering With Zero Vertex Attributes
 
 If you're using core profile, you can render one of these surfaces using one small patch, and no enabled vertex attributes whatsoever.  Just make sure that you're not using VAO zero.  For example, on the C side:
 
