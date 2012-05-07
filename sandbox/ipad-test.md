@@ -9,11 +9,11 @@ test_url : http://0.0.0.0:4000/sandbox/ipad-test.html
 
 **The OpenGL and Python code used to generate these images lives in [this github project](https://github.com/prideout/sympy-fun).**
 
-One way to play with tessellation shaders in OpenGL is by evaluating various parametric functions on the GPU.  Computer algebra systems (e.g., Mathematica) make it easy to compose equations for interesting surfaces.
+One way to play with tessellation shaders in OpenGL is by evaluating various parametric functions on the GPU.  You can find plenty of parametric equations on the web, but I thought it would be fun to derive some interesting equations from scratch using a symbolic math package.
 
-I didn't want to shell out the cash for Mathematica so I looked around for a decent free symbolic math package and settled on <a href="http://code.google.com/p/sympy/">SymPy</a>.
+I didn't want to shell out the cash for Mathematica so I looked around for open source solutions and settled on <a href="http://code.google.com/p/sympy/">SymPy</a>.  Overall it feels much less mature than commercial packages -- I can hang or crash it pretty easily, especially whren I call <b>simplify</b>.  But, it has a nice Pythonic API.
 
-The parametric equation for a standard Torus is easy enough to find on the interwebs, but it's a good starting point for our exercise.  Let's derive the parametric equation for a torus that has ridges:
+The parametric equation for a standard Torus is easy enough to find on the interwebs, but it's a good starting point for our exercise.  Let's derive the parametric equation for a torus that has ridges, like this:
 
 <a href="{{ ASSET_PATH }}/thumbnails/sympy-surfaces/RidgedTorusSurface.png">
 <img alt="Ridged Torus" src="{{ ASSET_PATH }}/thumbnails/sympy-surfaces/RidgedTorusSurface.png" style="width:375px;height:229px">
