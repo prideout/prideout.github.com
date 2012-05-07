@@ -33,7 +33,7 @@ def DVVF(m, variable):
     return m.applyfunc(lambda f: diff(f,variable))
 
 def PrintVVF(label, vvf):
-    """ Print a vector-valued using C syntax """
+    """ Print a vector-valued function using C syntax """
     print '// ' + label
     print "float x =", ccode(vvf[0]) + ";"
     print "float y =", ccode(vvf[1]) + ";"
