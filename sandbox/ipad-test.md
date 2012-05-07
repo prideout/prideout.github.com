@@ -7,7 +7,7 @@ test_url : http://0.0.0.0:4000/sandbox/ipad-test.html
 ---
 {% include JB/setup %}
 
-**Note: the OpenGL and Python code used to generate these screenshots lives in [this github project](https://github.com/prideout/sympy-fun) for your enjoyment.**
+**The OpenGL and Python code used to generate these images lives in [this github project](https://github.com/prideout/sympy-fun).**
 
 Barrel distortion simulates a fisheye lens by changing the magnification factor according to polar distance.  Often the magnification is proportional to the squared distance.  Here's a GLSL snippet that performs barrel distortion:
 
@@ -30,11 +30,15 @@ This function transforms the input into polar coordinates, tweaks the radius, th
 
 In olden times before shaders, barrel distortion could be achieved by simply rendering the scene into a texture, then applying the texture to a 2D grid of vertices.  The grid would look something like this after the pushing around the verts:
 
-[![Screenshot]({{ ASSET_PATH }}/thumbnails/sympy-surfaces/SimpleTorusSurface-halved.png)](https://github.com/prideout/sympy-fun/raw/master/big/SimpleTorusSurface.png)
+<a href="{{ ASSET_PATH }}/thumbnails/sympy-surfaces/SimpleTorusSurface.png">
+<img alt="Simple Torus Surface" src="{{ ASSET_PATH }}/thumbnails/sympy-surfaces/SimpleTorusSurface.png" style="width:365px;height:218px">
+</a>
 
 Here's the source image:
 
-[![Screenshot]({{ ASSET_PATH }}/thumbnails/sympy-surfaces/RidgedTorusSurface-halved.png)](https://github.com/prideout/sympy-fun/raw/master/big/RidgedTorusSurface.png)
+<a href="{{ ASSET_PATH }}/thumbnails/sympy-surfaces/RidgedTorusSurface.png">
+<img alt="Ridged Torus" src="{{ ASSET_PATH }}/thumbnails/sympy-surfaces/RidgedTorusSurface.png" style="width:375px;height:229px">
+</a>
 
 One issue with this approach is poor sampling at high magnification, resulting in fuzziness towards the center.  The same problem crops up when performing distortion in the fragment shader.
 
@@ -44,13 +48,15 @@ The fuzziness can be improved somewhat with a custom high-quality filter (e.g., 
 
 Another possibility is performing distortion in the vertex shader.  This gives a clean result, although coarsely-tessellated models will have straight edges, and they'll suffer from snapping artifacts during animation.  Here's a test of vertex shader distortion:
 
-[![Screenshot]({{ ASSET_PATH }}/thumbnails/sympy-surfaces/SuperellipseTorusSurface-halved.png)](https://github.com/prideout/sympy-fun/raw/master/big/SuperellipseTorusSurface.png)
+<a href="{{ ASSET_PATH }}/thumbnails/sympy-surfaces/SuperellipseTorusSurface.png">
+<img alt="Superellipse Torus" src="{{ ASSET_PATH }}/thumbnails/sympy-surfaces/SuperellipseTorusSurface.png" style="width:393px;height:167px">
+</a>
 
 On a modern GPU we can employ a simple tessellation shader, performing distortion in the subdivided mesh.  This allows for curved edges:
 
-[![Screenshot]({{ ASSET_PATH }}/thumbnails/sympy-surfaces/SuperellipseMobiusSurface-halved.png)](https://github.com/prideout/sympy-fun/raw/master/big/SuperellipseMobiusSurface.png)
-
-<img alt="Superellipse Mobius Surface" src="https://github.com/prideout/sympy-fun/raw/master/big/SuperellipseMobiusSurface.png" style="width:358px;height:125px">
+<a href="{{ ASSET_PATH }}/thumbnails/sympy-surfaces/SuperellipseMobiusSurface.png">
+<img alt="Superellipse Mobius" src="{{ ASSET_PATH }}/thumbnails/sympy-surfaces/SuperellipseMobiusSurface.png" style="width:358px;height:125px">
+</a>
 
 ### Tiled Rendering
 
@@ -58,7 +64,9 @@ If you're stuck with texture-based deformation and you need to improve the sampl
 
 To help with sampling issues in barrel distortion, each off-screen tile has the same resolution, but the viewport sizes vary according to distance-from-center, as visualized here:
 
-[![Screenshot]({{ ASSET_PATH }}/thumbnails/sympy-surfaces/SpiralSurface-halved.png)](https://github.com/prideout/sympy-fun/raw/master/big/SpiralSurface.png)
+<a href="{{ ASSET_PATH }}/thumbnails/sympy-surfaces/SpiralSurface.png">
+<img alt="Spiral Surface" src="{{ ASSET_PATH }}/thumbnails/sympy-surfaces/SpiralSurface.png" style="width:246px;height:241px">
+</a>
 
 The projection matrix magic for snipping out a portion of the viewing frustum is the same as a *pick matrix*:
 
