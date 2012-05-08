@@ -12,7 +12,13 @@ title: The Little Grasshopper
     <style type="text/css">
       li#{{ post.id | remove:'/' }}:hover { background-color: #fff }
     </style>
-    <a href="{{ BASE_PATH }}{{ post.url }}" >
+
+    {% if post.special_url != nil %}
+        <a href="{{ post.special_url }}" >
+    {% else %}
+        <a href="{{ BASE_PATH }}{{ post.url }}" >
+    {% endif %}
+
       <div class="row">
         <div class="span3">
           <img src="{{ BASE_PATH }}/assets/thumbnails/{{ post.thumbnail }}" alt="thumbnail" style="width:128px;height:72px;"/>
