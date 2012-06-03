@@ -11,7 +11,7 @@ Here's a fun little WebGL app I put together that lets you explore prime knots t
 
 **[http://github.prideout.net/knotgl](http://github.prideout.net/knotgl)**
 
-The notation in the lower-right corner is the Alexander-Briggs name for the knot.
+The notation in the lower-right corner is the Alexander-Briggs name for the knot.  Click any of the knots along the top to swap the current knot.  The bottom link swipes the page over to the full gallery.
 
 The first time you select a particular row, it tessellates the knots in a web worker thread.  It never deletes VBOs, so it won't re-tessellate if you come back to a row.
 
