@@ -10,7 +10,7 @@ im = Image.open(sourcef)
 
 #im = im.filter(ImageFilter.MedianFilter(4))
 
-im.thumbnail((128,76), Image.ANTIALIAS)
+im.thumbnail((256,144), Image.ANTIALIAS)
 
 #enhancer = ImageEnhance.Sharpness(im)
 #im = enhancer.enhance(2.0)
