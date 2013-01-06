@@ -1,0 +1,346 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Overview and Design Philosophy &mdash; OpenSubdiv 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="OpenSubdiv 1.0 documentation" href="#" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="#">OpenSubdiv 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="overview-and-design-philosophy">
+<h1>Overview and Design Philosophy<a class="headerlink" href="#overview-and-design-philosophy" title="Permalink to this headline">¶</a></h1>
+<p>The Python module for OpenSubdiv does not provide one-to-one wrapping of the native C++ APIs: Osd, Hbr, and Far.  Rather, the <tt class="docutils literal"><span class="pre">osd</span></tt> module is a higher-level utility layer composed of a small handful of classes and free functions.</p>
+<p>We do not yet support rendering or GPU-accelerated subdivision from Python, but a demo is provided that renders a subdivided surface using <tt class="docutils literal"><span class="pre">PyOpenGL</span></tt> and <tt class="docutils literal"><span class="pre">QGLWidget</span></tt>.  The demo uses a &#8220;modern&#8221; OpenGL context (Core Profile).</p>
+<p>These bindings leverage <a class="reference external" href="http://www.numpy.org">numpy</a> arrays for passing data.  The numpy library is a de facto standard for encapsulating large swaths of typed data in Python.  However, for special attributes (such as sharpness), the OpenSubdiv wrapper exposes Pythonic interfaces, using properties and list accessors.  For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">osd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="n">faceList</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">]])</span>
+<span class="n">topo</span> <span class="o">=</span> <span class="n">osd</span><span class="o">.</span><span class="n">Topology</span><span class="p">(</span><span class="n">faceList</span><span class="p">)</span>
+<span class="n">topo</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">sharpness</span> <span class="o">=</span> <span class="mf">1.3</span>
+<span class="n">topo</span><span class="o">.</span><span class="n">faces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">edges</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">sharpness</span> <span class="o">=</span> <span class="mf">0.6</span>
+</pre></div>
+</div>
+<p>After constructing a <a class="reference internal" href="#osd.Topology" title="osd.Topology"><tt class="xref py py-class docutils literal"><span class="pre">osd.Topology</span></tt></a> object, clients should finalize it and pass it into a <a class="reference internal" href="#osd.Subdivider" title="osd.Subdivider"><tt class="xref py py-class docutils literal"><span class="pre">osd.Subdivider</span></tt></a> instance:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">topo</span><span class="o">.</span><span class="n">finalize</span><span class="p">()</span>
+<span class="n">subdivider</span> <span class="o">=</span> <span class="n">osd</span><span class="o">.</span><span class="n">Subdivider</span><span class="p">(</span>
+    <span class="n">topo</span><span class="p">,</span>
+    <span class="n">vertexLayout</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="n">indexType</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">,</span>
+    <span class="n">levels</span> <span class="o">=</span> <span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The final step is to perform actual refinement.  This often occurs inside an animation loop or callback function:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">subdivider</span><span class="o">.</span><span class="n">setCage</span><span class="p">(</span><span class="n">positions</span><span class="p">)</span>
+<span class="n">subdivider</span><span class="o">.</span><span class="n">refine</span><span class="p">()</span>
+<span class="n">pts</span> <span class="o">=</span> <span class="n">subdivider</span><span class="o">.</span><span class="n">getRefinedVertices</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="topology-class">
+<h1>Topology Class<a class="headerlink" href="#topology-class" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="osd.Topology">
+<em class="property">class </em><tt class="descclassname">osd.</tt><tt class="descname">Topology</tt><big>(</big><em>indices</em>, <em>valences=None</em><big>)</big><a class="headerlink" href="#osd.Topology" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents an abstract graph of connected polygons.</p>
+<p>A <tt class="xref py py-class docutils literal"><span class="pre">Topology</span></tt> object contains only connectivity information;
+it does not contain any coordinate data.  Instances are simply
+populated, finalized, and submitted to an instance of
+<a class="reference internal" href="#osd.Subdivider" title="osd.Subdivider"><tt class="xref py py-class docutils literal"><span class="pre">osd.Subdivider</span></tt></a>.</p>
+<p>The constructor can take a single two-dimensional numpy array
+(<tt class="docutils literal"><span class="pre">indices</span></tt>), or two one-dimensional numpy arrays
+(<tt class="docutils literal"><span class="pre">indices</span></tt> and <tt class="docutils literal"><span class="pre">valences</span></tt>).  If every face has the same
+valence, clients can pass in a single integer for
+<tt class="docutils literal"><span class="pre">valences</span></tt>.</p>
+<p>If desired, simple Python lists can be used in lieu of numpy
+arrays.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Input data is always copied to internal storage,
+rather than referenced.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>indices</strong> (<em>list or numpy array</em>) &#8211; Defines each face as a list of vertex indices.</li>
+<li><strong>valences</strong> (<em>list, number, or numpy array</em>) &#8211; If <tt class="docutils literal"><span class="pre">indices</span></tt> is 2D, this should be <tt class="xref py py-const docutils literal"><span class="pre">None</span></tt>.  If every face has the same valence, this can be a single integer. Otherwise this is a list of integers that specify the valence of each face.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="osd.Topology.boundaryInterpolation">
+<tt class="descname">boundaryInterpolation</tt><a class="headerlink" href="#osd.Topology.boundaryInterpolation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets or sets the boundary interpolation method for this
+mesh to one of the values defined in
+<a class="reference internal" href="#osd.InterpolateBoundary" title="osd.InterpolateBoundary"><tt class="xref py py-class docutils literal"><span class="pre">osd.InterpolateBoundary</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="osd.Topology.vertices">
+<tt class="descname">vertices</tt><a class="headerlink" href="#osd.Topology.vertices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pythonic read/write access to special attributes (e.g., sharpness) in
+the HBR mesh.</p>
+<p>This property is not an actual list-of-things; it&#8217;s a short-lived
+adapter that allows clients to use Pythonic properties:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">topo</span> <span class="o">=</span> <span class="n">osd</span><span class="o">.</span><span class="n">Topology</span><span class="p">(</span><span class="n">faces</span><span class="p">)</span>
+<span class="n">topo</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">sharpness</span> <span class="o">=</span> <span class="mf">1.3</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="osd.Topology.faces">
+<tt class="descname">faces</tt><a class="headerlink" href="#osd.Topology.faces" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pythonic read/write access to face data and edge data in the HBR mesh.</p>
+<p>This property is not an actual list-of-things; it&#8217;s a short-lived
+adapter that allows clients to use Pythonic properties:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">topo</span> <span class="o">=</span> <span class="n">osd</span><span class="o">.</span><span class="n">Topology</span><span class="p">(</span><span class="n">faces</span><span class="p">)</span>
+<span class="n">topo</span><span class="o">.</span><span class="n">faces</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">edges</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">sharpness</span> <span class="o">=</span> <span class="mf">0.6</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="osd.Topology.finalize">
+<tt class="descname">finalize</tt><big>(</big><big>)</big><a class="headerlink" href="#osd.Topology.finalize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls finish on the HBR mesh, thus preparing it for subdivision.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="subdivider-class">
+<h1>Subdivider Class<a class="headerlink" href="#subdivider-class" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="osd.Subdivider">
+<em class="property">class </em><tt class="descclassname">osd.</tt><tt class="descname">Subdivider</tt><big>(</big><em>topo</em>, <em>vertexLayout</em>, <em>indexType</em>, <em>levels</em><big>)</big><a class="headerlink" href="#osd.Subdivider" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wraps a frozen <a class="reference internal" href="#osd.Topology" title="osd.Topology"><tt class="xref py py-class docutils literal"><span class="pre">osd.Topology</span></tt></a> object and efficiently
+subdivides it into triangles.</p>
+<p>On creation, the <tt class="xref py py-class docutils literal"><span class="pre">Subdivider</span></tt> is locked to an immutable,
+finalized <a class="reference internal" href="#osd.Topology" title="osd.Topology"><tt class="xref py py-class docutils literal"><span class="pre">osd.Topology</span></tt></a> object.  However, actual
+subdivision computation can be requested repeatedly using dynamic
+per-vertex data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>topo</strong> (<a class="reference internal" href="#osd.Topology" title="osd.Topology"><tt class="xref py py-class docutils literal"><span class="pre">osd.Topology</span></tt></a>) &#8211; Finalized mesh topology.</li>
+<li><strong>vertexLayout</strong> (list of numpy <a class="reference external" href="http://docs.scipy.org/doc/numpy/user/basics.types.html">types</a>) &#8211; Describes the data structure composing each vertex.</li>
+<li><strong>indexType</strong> (single numpy <a class="reference external" href="http://docs.scipy.org/doc/numpy/user/basics.types.html">type</a>) &#8211; Integer type for the indices returned from <cite>getRefinedTopology</cite>.</li>
+<li><strong>levels</strong> (<em>integer</em>) &#8211; Number of subdivisions.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In the current implementation, <tt class="docutils literal"><span class="pre">vertexLayout</span></tt> must be
+composed of <tt class="docutils literal"><span class="pre">numpy.float32</span></tt>, and <tt class="docutils literal"><span class="pre">indexType</span></tt> must be
+<tt class="docutils literal"><span class="pre">numpy.uint32</span></tt>.</p>
+</div>
+<dl class="method">
+<dt id="osd.Subdivider.setCage">
+<tt class="descname">setCage</tt><big>(</big><em>coarseVerts</em>, <em>listType=None</em><big>)</big><a class="headerlink" href="#osd.Subdivider.setCage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pushes a new set of coarse verts to the mesh without
+changing topology.</p>
+<p>If a numpy array is supplied for <tt class="docutils literal"><span class="pre">coarseVerts</span></tt>, its
+<tt class="docutils literal"><span class="pre">dtype</span></tt> must be castable (via <a class="reference external" href="http://docs.scipy.org/doc/numpy-1.6.0/reference/generated/numpy.ndarray.view.html">view</a>) to the <tt class="docutils literal"><span class="pre">vertexLayout</span></tt>
+of the <tt class="xref py py-class docutils literal"><span class="pre">Subdivider</span></tt>.</p>
+<p>If a Python list is supplied for <tt class="docutils literal"><span class="pre">coarseVerts</span></tt>, the client
+must also supply the <tt class="docutils literal"><span class="pre">listType</span></tt> argument to specify the
+numpy type of the incoming array before it gets cast to
+<tt class="docutils literal"><span class="pre">vertexLayout</span></tt>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="osd.Subdivider.refine">
+<tt class="descname">refine</tt><big>(</big><big>)</big><a class="headerlink" href="#osd.Subdivider.refine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs the actual subdivision work.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="osd.Subdivider.getRefinedVertices">
+<tt class="descname">getRefinedVertices</tt><big>(</big><big>)</big><a class="headerlink" href="#osd.Subdivider.getRefinedVertices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a numpy array representing the vertex data in the
+subdivided mesh.</p>
+<p>The data is returned in the format specified by the client
+when instancing the subdivider (<tt class="docutils literal"><span class="pre">vertexLayout</span></tt>).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="osd.Subdivider.getRefinedTopology">
+<tt class="descname">getRefinedTopology</tt><big>(</big><big>)</big><a class="headerlink" href="#osd.Subdivider.getRefinedTopology" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a numpy array representing the vertex indices of each quad in
+subdivided mesh.</p>
+<p>The data is returned in the format specified by the client
+when instancing the subdivider (<tt class="docutils literal"><span class="pre">indexType</span></tt>).</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="enumerations">
+<h1>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="osd.InterpolateBoundary">
+<em class="property">class </em><tt class="descclassname">osd.</tt><tt class="descname">InterpolateBoundary</tt><a class="headerlink" href="#osd.InterpolateBoundary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subdivision boundary rules for <a class="reference internal" href="#osd.Topology" title="osd.Topology"><tt class="xref py py-class docutils literal"><span class="pre">osd.Topology</span></tt></a> construction.</p>
+<dl class="attribute">
+<dt id="osd.InterpolateBoundary.NONE">
+<tt class="descname">NONE</tt><em class="property"> = 0</em><a class="headerlink" href="#osd.InterpolateBoundary.NONE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Boundary edges are corner verts are not processed specially.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="osd.InterpolateBoundary.EDGE_ONLY">
+<tt class="descname">EDGE_ONLY</tt><em class="property"> = 1</em><a class="headerlink" href="#osd.InterpolateBoundary.EDGE_ONLY" title="Permalink to this definition">¶</a></dt>
+<dd><p>Boundary edges are marked infinitely sharp.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="osd.InterpolateBoundary.EDGE_AND_CORNER">
+<tt class="descname">EDGE_AND_CORNER</tt><em class="property"> = 2</em><a class="headerlink" href="#osd.InterpolateBoundary.EDGE_AND_CORNER" title="Permalink to this definition">¶</a></dt>
+<dd><p>Boundary edges are marked infinitely sharp, and vertices with
+valence=2 are marked infinitely sharp.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="osd.InterpolateBoundary.ALWAYS_SHARP">
+<tt class="descname">ALWAYS_SHARP</tt><em class="property"> = 3</em><a class="headerlink" href="#osd.InterpolateBoundary.ALWAYS_SHARP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unused.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="osd.Sharpness">
+<em class="property">class </em><tt class="descclassname">osd.</tt><tt class="descname">Sharpness</tt><a class="headerlink" href="#osd.Sharpness" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides some floating-point constants that clients can
+optionally use to set sharpness.</p>
+<dl class="attribute">
+<dt id="osd.Sharpness.SMOOTH">
+<tt class="descname">SMOOTH</tt><em class="property"> = 0</em><a class="headerlink" href="#osd.Sharpness.SMOOTH" title="Permalink to this definition">¶</a></dt>
+<dd><p>As smooth as possible.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="osd.Sharpness.SHARP">
+<tt class="descname">SHARP</tt><em class="property"> = 1</em><a class="headerlink" href="#osd.Sharpness.SHARP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moderately sharp.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="osd.Sharpness.INFINITELY_SHARP">
+<tt class="descname">INFINITELY_SHARP</tt><em class="property"> = 2</em><a class="headerlink" href="#osd.Sharpness.INFINITELY_SHARP" title="Permalink to this definition">¶</a></dt>
+<dd><p>As sharp as possible.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="caveats">
+<h1>Caveats<a class="headerlink" href="#caveats" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li>Face varying data is not yet supported</li>
+<li>Feature adaptive subdivision is not yet supported</li>
+<li>CUDA and GLSL tessellation shaders are not yet supported</li>
+<li>Only the Catmull-Clark scheme is supported (no loop or linear schemes)</li>
+<li>Vertex data must be 32-bit floats although API is in place to accept heterogenous interpolation data</li>
+<li>Index data must be 32-bit unsigned integers although API is in place to accept other types</li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Overview and Design Philosophy</a></li>
+<li><a class="reference internal" href="#topology-class">Topology Class</a></li>
+<li><a class="reference internal" href="#subdivider-class">Subdivider Class</a></li>
+<li><a class="reference internal" href="#enumerations">Enumerations</a></li>
+<li><a class="reference internal" href="#caveats">Caveats</a></li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="#">OpenSubdiv 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Pixar Animation Studios.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
