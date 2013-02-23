@@ -5,20 +5,11 @@ var main = function() {
 
   var html = converter.makeHtml(mdSource);
 
+  var markdown = $.get('index.md', function(data) {
+    console.info('prideout ', data);
+  });
+
   $('#target').html(html);
-
-  if (false) {
-      $('img').each(function() {
-        var src = $(this).attr('src');
-        $(this).replaceWith(
-            '<object data="' + src + '" \n'  +
-            '        type="image/svg+xml">');
-      });
-  }
-
-  // <object data="graphs/Figure1a.dot.svg"
-  //         type="image/svg+xml"
-  //         width="100%" height="100%">
 
   if (window.location.hash) {
     window.setTimeout(function() {
