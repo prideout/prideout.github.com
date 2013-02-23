@@ -1,20 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Projects</title>
-    <meta charset="utf-8">
-    <meta name="author" content="Philip Rideout">
-    <link rel="shortcut icon" href="http://prideout.net/favicon.ico">
-    <link href="css/style.css" rel="stylesheet">
-    <script src="lib/head.load.min.js"></script>
-    <script src="common.js"></script>
-    <script src="index.js"></script>
-  </head>
-  <body>
-    <div id="target">
-    </div>
-    <script id="content" type="text/template"> 
-
 # Projects
 
 - Book and Giza
@@ -49,7 +32,3 @@
 - [Github](https://github.com/prideout?tab=repositories)
 - [Giza @ nodejitsu](http://giza.nodejitsu.com/)
 - [Gists](https://gist.github.com/prideout)
-
-    </script>
-  </body>
-</html>
