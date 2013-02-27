@@ -1,11 +1,11 @@
 # Projects
 
 - Book and Giza
-  - MultiCanvas.html, MultiCanvas1.js, MultiCanvas2.js
+  - Make giza a subproject
   - Chapter 2 verbiage
 - mserve
   - click prims away, snap 'em back, hover for info
-  - derby
+  - derby or meteor
   - aval/bin/mserve -- upload.py (uses pymongo) and populate.py (calls out to SdtUtil.Subdivider)
   - Giza need to be publicized
 - Blog Entry on Quad Meshes
