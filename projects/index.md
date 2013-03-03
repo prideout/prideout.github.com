@@ -40,3 +40,5 @@
 - [Github](https://github.com/prideout?tab=repositories)
 - [Giza @ nodejitsu](http://giza.nodejitsu.com/)
 - [Gists](https://gist.github.com/prideout)
+- [SO for WebGL and ES](http://stackoverflow.com/questions/tagged/webgl%20or%20opengl-es)
+- [SO for Meteor](http://stackoverflow.com/questions/tagged/meteor)
