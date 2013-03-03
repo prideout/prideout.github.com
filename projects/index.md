@@ -1,11 +1,19 @@
 # Projects
 
 - Book and Giza
-  - Make giza a subproject
   - Chapter 2 verbiage
 - mserve
   - click prims away, snap 'em back, hover for info
   - derby or meteor
+  - site's technology stack:
+    - yes to jquery and jqueryui
+    - no to twitter bootstrap
+    - yes to ipad layout  http://stevesanderson.github.com/fixed-height-layouts-demo/two-columns.html
+    - yes to google fonts
+    - yes to CDN for everything except requirejs
+    - yes to RequireJS
+    - yes to GIZA submodule
+    - derby or meteor
   - aval/bin/mserve -- upload.py (uses pymongo) and populate.py (calls out to SdtUtil.Subdivider)
   - Giza need to be publicized
 - Blog Entry on Quad Meshes
