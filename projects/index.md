@@ -1,6 +1,6 @@
 # Projects
 
-- Taxes!
+- Taxes, Electrician
 - Book and Giza
   - Chapter 2 verbiage
 - mserve
