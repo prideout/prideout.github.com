@@ -1,6 +1,6 @@
 # Projects
 
-- Taxes, Electrician
+- Taxes, Find Tetrita notes
 - Book and Giza
   - Chapter 2 verbiage
 - mserve
