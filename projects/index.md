@@ -69,6 +69,10 @@
 
 ### Low Nibble
 
+http://www.clker.com/cliparts/E/i/W/j/3/t/blue-button.svg
+
+http://www.clker.com/cliparts/T/R/T/d/j/C/small-button-pressed.svg
+
 <span class="label">0</span>
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
   viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
