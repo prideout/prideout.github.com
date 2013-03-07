@@ -43,3 +43,61 @@
 - [Gists](https://gist.github.com/prideout)
 - [SO for WebGL and ES](http://stackoverflow.com/questions/tagged/webgl%20or%20opengl-es)
 - [SO for Meteor](http://stackoverflow.com/questions/tagged/meteor)
+
+# Tetrita Notes
+
+<style>
+  stop.begin { stop-color: yellow; }
+  stop.end   { stop-color:  green; }
+  svg {
+    width:  64px;
+    height: 64px;
+    border: solid 1px #000;
+    vertical-align: middle;
+  }
+  span.label {
+    font-size: 50px;
+    vertical-align: middle;
+  }
+</style>
+
+## Overview
+
+5 tiles, 7 pieces, 20 rows, 10 columns
+
+## Tile Byte
+
+### Low Nibble
+
+<span class="label">0</span>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+  viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
+  <linearGradient id="gradient">
+    <stop class="begin" offset="0%"/>
+    <stop class="end" offset="100%"/>
+  </linearGradient>
+  <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+  <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+</svg>
+
+<span class="label">1</span>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+  viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
+  <linearGradient id="gradient">
+    <stop class="begin" offset="0%"/>
+    <stop class="end" offset="100%"/>
+  </linearGradient>
+  <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+  <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+</svg>
+
+### High Nibble
+
+(x & 0x3) == 0   0 ccw
+(x & 0x3) == 1  90 ccw
+(x & 0x3) == 2 180 ccw
+(x & 0x3) == 3 270 ccw
+(x & 0x4)      horizontal flip
+(x & 0x8)      vertical flip
+
+## Piece Definition (16 tile bytes)
