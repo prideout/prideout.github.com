@@ -1,3 +1,4 @@
+
 # Projects
 
 - Taxes, Find Tetrita notes
@@ -37,7 +38,7 @@
 
 # Links
 
-- [Blog](http://github.prideout.net/)
+- [Blog](http://github.prideout.net/), [WebGL Extensions](http://prideout.net/recipes/ExtensionViewer.html)
 - [Github](https://github.com/prideout?tab=repositories)
 - [Giza @ nodejitsu](http://giza.nodejitsu.com/)
 - [Gists](https://gist.github.com/prideout)
@@ -46,9 +47,21 @@
 
 # Tetrita Notes
 
+## Overview
+
+5 tiles, 7 pieces, 20 rows, 10 columns
+
+## Links
+
+- [Pill Button 1 SVG](http://www.clker.com/cliparts/E/i/W/j/3/t/blue-button.svg)
+- [Pill Button 2 SVG](http://www.clker.com/cliparts/T/R/T/d/j/C/small-button-pressed.svg)
+- [SVG as Texture](https://github.com/mrdoob/three.js/issues/1317)
+
+## Tile (Unsigned Short)
+
+### Shape Byte
+
 <style>
-  stop.begin { stop-color: yellow; }
-  stop.end   { stop-color:  green; }
   svg {
     width:  64px;
     height: 64px;
@@ -61,47 +74,59 @@
   }
 </style>
 
-## Overview
-
-5 tiles, 7 pieces, 20 rows, 10 columns
-
-## Tile Byte
-
-### Low Nibble
-
-http://www.clker.com/cliparts/E/i/W/j/3/t/blue-button.svg
-
-http://www.clker.com/cliparts/T/R/T/d/j/C/small-button-pressed.svg
-
 <span class="label">0</span>
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1"
-  viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
-  <linearGradient id="gradient">
-    <stop class="begin" offset="0%"/>
-    <stop class="end" offset="100%"/>
-  </linearGradient>
-  <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
-  <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="45" style="fill:#000" />
+  <circle cx="50" cy="50" r="37" style="fill:#fff" />
 </svg>
 
 <span class="label">1</span>
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1"
-  viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
-  <linearGradient id="gradient">
-    <stop class="begin" offset="0%"/>
-    <stop class="end" offset="100%"/>
-  </linearGradient>
-  <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
-  <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="45" style="fill:#000" />
+  <circle cx="50" cy="50" r="37.5" style="fill:#fff" />
+  <rect x="0" y="5" width="50" height="90" style="fill:#000" />
+  <rect x="0" y="12.5" width="51" height="75" style="fill:#fff" />
 </svg>
 
-### High Nibble
+<span class="label">2</span>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="45" style="fill:#000" />
+  <circle cx="50" cy="50" r="37.5" style="fill:#fff" />
+  <rect x="0" y="5" width="50" height="90" style="fill:#000" />
+  <rect x="0" y="12.5" width="51" height="100" style="fill:#fff" />
+  <rect x="0" y="51" width="95" height="50" style="fill:#000" />
+  <rect x="0" y="50" width="87.5" height="50" style="fill:#fff" />
+</svg>
 
-(x & 0x3) == 0   0 ccw
-(x & 0x3) == 1  90 ccw
-(x & 0x3) == 2 180 ccw
-(x & 0x3) == 3 270 ccw
-(x & 0x4)      horizontal flip
-(x & 0x8)      vertical flip
+<span class="label">3</span>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect x="0" y="5" width="100" height="90" style="fill:#000" />
+  <rect x="0" y="12.5" width="100" height="75" style="fill:#fff" />
+</svg>
 
-## Piece Definition (16 tile bytes)
+<span class="label">4</span>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="45" style="fill:#000" />
+  <circle cx="50" cy="50" r="37.5" style="fill:#fff" />
+  <rect x="5" y="5" width="45" height="100" style="fill:#000" />
+  <rect x="0" y="5" width="50" height="90" style="fill:#000" />
+  <rect x="0" y="12.5" width="51" height="75" style="fill:#fff" />
+  <rect x="51" y="51" width="44" height="49" style="fill:#000" />
+  <rect x="50" y="50" width="37.5" height="50" style="fill:#fff" />
+  <rect x="12.5" y="15" width="40" height="100" style="fill:#fff" />
+</svg>
+
+### Orientation Byte
+
+We'll provide a lookup table for texture coordinates.  The fragment shader can use the lookup table and modulate it with `gl_PointCoord` to obtain the correct texture coordinate.
+
+    (x & 0x3) == 0   0 ccw
+    (x & 0x3) == 1  90 ccw
+    (x & 0x3) == 2 180 ccw
+    (x & 0x3) == 3 270 ccw
+    (x & 0x4)      horizontal flip
+    (x & 0x8)      vertical flip
+
+## Piece Definition
+
+16 shorts for each of the 7 pieces.
