@@ -1,9 +1,10 @@
 
 # Projects
 
-- Taxes, Haircut
+- Resched Dentist, Haircut
 - Book and Giza
   - Chapter 2 verbiage
+- Finish up sandbox/dotty
 - mserve
   - click prims away, snap 'em back, hover for info
   - leaning towards meteor instead of derby
@@ -19,7 +20,7 @@
   - aval/bin/mserve -- upload.py (uses pymongo) and populate.py (calls out to SdtUtil.Subdivider)
   - Giza need to be publicized
 - Blog Entry on Quad Meshes
-  - sandbox/QuadMesh on the Sony?
+  - new Linux machine (March 20)
   - ivec3 -> ivec4 where w is a bitset for sharpness (punt porting the Gizmo shape, carrying creases through OSD)
   - cone shape would be a per-vertex sharpness
   - Verbiage
