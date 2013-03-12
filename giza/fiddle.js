@@ -3,7 +3,7 @@ var cdn = 'http://ajax.cdnjs.com/ajax/libs';
 
 $.getScript(cdn + '/require.js/2.1.4/require.min.js', function() {
 
-  var gizapath = '../giza/';
+  var gizapath = 'http://github.prideout.net/giza/';
 
   var scripts = [
     gizapath + 'Giza.js',
