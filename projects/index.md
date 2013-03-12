@@ -25,6 +25,7 @@
   - cone shape would be a per-vertex sharpness
   - Verbiage
 - Beautiful Giza Docs / Commission the CSS + Logo
+- Registered glfiddle.com, now do something with it.
 - demoscene (Dr Who) -- uses dancer.js
 - Osd
   - Python adapter creates, tags, edits
