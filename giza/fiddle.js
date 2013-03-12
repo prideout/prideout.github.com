@@ -28,6 +28,17 @@ $.getScript(cdn + '/require.js/2.1.4/require.min.js', function() {
     urlArgs: "bust=" + (new Date()).getTime()
   });
 
-  require(scripts, main);
+  require(scripts, function() {
+
+    var gl = GIZA.init();
+
+    init(gl);
+
+    var wrapped = function(time) {
+      draw(gl, time);
+    };
+
+    GIZA.animate(wrapped);
+  });
 
 });
