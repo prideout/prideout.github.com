@@ -1,7 +1,7 @@
 
 var cdn = 'http://ajax.cdnjs.com/ajax/libs';
 
-$.getScript(cdn + '/require.js/0.24.0/require.min.js', function() {
+$.getScript(cdn + '/require.js/2.1.4/require.min.js', function() {
 
   var gizapath = '../giza/';
 
