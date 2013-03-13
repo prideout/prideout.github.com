@@ -32,6 +32,23 @@ $.getScript(cdn + '/require.js/2.1.4/require.min.js', function() {
 
     var gl = GIZA.init();
 
+    M4 = GIZA.Matrix4;
+    M3 = GIZA.Matrix3;
+    V2 = GIZA.Vector2;
+    V3 = GIZA.Vector3;
+    V4 = GIZA.Vector4;
+
+    compile = function(uberspec) {
+      var spec = {};
+      for (var key in uberspec) {
+        var shaders = uberspec[key].split();
+        var vs = shaders[0];
+        var fs = shaders[1];
+        spec[key] = { vs: vs, fs: fs, attribs: attribs};
+      }
+      return GIZA.compile(spec);
+    };
+
     init(gl);
 
     var wrapped = function(time) {
