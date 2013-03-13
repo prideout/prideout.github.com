@@ -44,6 +44,7 @@ $.getScript(cdn + '/require.js/2.1.4/require.min.js', function() {
         var shaders = uberspec[key].split(' ');
         var vs = shaders[0];
         var fs = shaders[1];
+        console.info(vs, fs, attribs);
         spec[key] = { vs: vs, fs: fs, attribs: attribs};
       }
       return GIZA.compile(spec);
