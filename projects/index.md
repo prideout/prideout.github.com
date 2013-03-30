@@ -1,10 +1,11 @@
 
 # Projects
 
-- Resched Dentist, Haircut
 - Book and Giza
   - Chapter 2 verbiage
-- Finish up sandbox/dotty
+- Willow
+  - http://tomtheisen.com/spread/
+  - livejs
 - mserve
   - click prims away, snap 'em back, hover for info
   - leaning towards meteor instead of derby
