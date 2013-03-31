@@ -3,21 +3,18 @@
 
 - Book and Giza
   - Chapter 2 verbiage
-- Willow
-  - http://tomtheisen.com/spread/
+- Willow Chrome Experiment
+  - [inspiration](http://tomtheisen.com/spread/)
+  - [kineticjs](http://www.html5canvastutorials.com/kineticjs/html5-canvas-events-tutorials-introduction-with-kineticjs/)
   - livejs
 - mserve
   - click prims away, snap 'em back, hover for info
-  - leaning towards meteor instead of derby
-  - site's technology stack:
-     - yes to jquery and jqueryui
-     - no to twitter bootstrap
-     - yes to ipad layout  http://stevesanderson.github.com/fixed-height-layouts-demo/two-columns.html
+  - technology stack:
+     - yes to ipad layout  (see sandbox/webapp)
+     - user responsivator for testing
      - yes to google fonts
-     - yes to CDN for everything except requirejs
-     - yes to RequireJS
      - yes to GIZA submodule
-     - derby or meteor
+     - meteor
   - aval/bin/mserve -- upload.py (uses pymongo) and populate.py (calls out to SdtUtil.Subdivider)
   - Giza need to be publicized
 - Blog Entry on Quad Meshes
@@ -28,6 +25,7 @@
 - Beautiful Giza Docs / Commission the CSS + Logo
 - Registered glfiddle.com, now do something with it.
 - demoscene (Dr Who) -- uses dancer.js
+  - [inspiration](http://www.mrhobo.nl/hobovis/hobovis3.html)
 - Osd
   - Python adapter creates, tags, edits
   - Python ri-like API for Subdivs
