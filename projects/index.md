@@ -6,6 +6,8 @@
 - Willow Chrome Experiment
   - [inspiration](http://tomtheisen.com/spread/)
   - [kineticjs](http://www.html5canvastutorials.com/kineticjs/html5-canvas-events-tutorials-introduction-with-kineticjs/)
+  - [monarchs](http://www.doctorzebra.com/prez/a_monarc2.htm) [stamps](http://stampmall.com.au/images/30180.jpg)
+  - markdown in js
   - livejs
 - mserve
   - click prims away, snap 'em back, hover for info
