@@ -5,10 +5,11 @@
   - Chapter 2 verbiage
 - Willow Chrome Experiment
   - [inspiration](http://tomtheisen.com/spread/)
-  - [kineticjs](http://www.html5canvastutorials.com/kineticjs/html5-canvas-events-tutorials-introduction-with-kineticjs/)
-  - [monarchs](http://www.doctorzebra.com/prez/a_monarc2.htm) [stamps](http://stampmall.com.au/images/30180.jpg)
-  - markdown in js
+  - [monarchs](http://www.doctorzebra.com/prez/a_monarc2.htm)
+  - showdown
   - livejs
+  - minified giza
+    - beziers in giza that match canvas2d API?
 - mserve
   - click prims away, snap 'em back, hover for info
   - technology stack:
@@ -29,7 +30,7 @@
 - demoscene (Dr Who) -- uses dancer.js
   - [inspiration](http://www.mrhobo.nl/hobovis/hobovis3.html)
 - Osd
-  - Python adapter creates, tags, edits
+  - Python adapter creases, tags, edits
   - Python ri-like API for Subdivs
   - port the Gizmo shape
   - file format
@@ -38,6 +39,7 @@
 - **WebPelt** TopoJSON meets uvlayout
 - SketchUp clone for Web
 - Cuboid clone for Web
+- [kineticjs](http://www.html5canvastutorials.com/kineticjs/html5-canvas-events-tutorials-introduction-with-kineticjs/)
 
 # Links
 
