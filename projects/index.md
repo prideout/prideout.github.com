@@ -8,6 +8,7 @@
   - [monarchs](http://www.doctorzebra.com/prez/a_monarc2.htm)
   - showdown
   - livejs
+  - [resposive](http://bradfrost.github.com/this-is-responsive/patterns.html#images)
   - minified giza
     - beziers in giza that match canvas2d API?
 - mserve
