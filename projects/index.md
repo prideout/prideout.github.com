@@ -3,14 +3,7 @@
 
 - Book and Giza
   - Chapter 2 verbiage
-- Willow Chrome Experiment
-  - [inspiration](http://tomtheisen.com/spread/)
-  - [monarchs](http://www.doctorzebra.com/prez/a_monarc2.htm)
-  - showdown
-  - livejs
-  - [resposive](http://bradfrost.github.com/this-is-responsive/patterns.html#images)
-  - minified giza
-    - beziers in giza that match canvas2d API?
+- sandbox/willow
 - mserve
   - click prims away, snap 'em back, hover for info
   - technology stack:
