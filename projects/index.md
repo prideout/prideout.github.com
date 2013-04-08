@@ -4,6 +4,7 @@
 - Book and Giza
   - Chapter 2 verbiage
 - sandbox/willow
+- "projects" server
 - mserve
   - click prims away, snap 'em back, hover for info
   - technology stack:
