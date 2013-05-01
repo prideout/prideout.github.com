@@ -1,27 +1,19 @@
 
 # Projects
 
+- monarchy: CUT AND RUN.  Minify, deploy, make super-short blog entry.
 - Book and Giza
   - Chapter 2 verbiage
-- sandbox/willow
-- "projects" server
-- mserve
+- backlot
   - click prims away, snap 'em back, hover for info
-  - technology stack:
-     - yes to ipad layout  (see sandbox/webapp)
-     - user responsivator for testing
-     - yes to google fonts
-     - yes to GIZA submodule
-     - meteor
+  - google fonts, minified GIZA, meteor
   - aval/bin/mserve -- upload.py (uses pymongo) and populate.py (calls out to SdtUtil.Subdivider)
-  - Giza need to be publicized
 - Blog Entry on Quad Meshes
-  - new Linux machine (March 20)
+  - new Linux machine, OptiX is another excuse.
   - ivec3 -> ivec4 where w is a bitset for sharpness (punt porting the Gizmo shape, carrying creases through OSD)
   - cone shape would be a per-vertex sharpness
   - Verbiage
 - Beautiful Giza Docs / Commission the CSS + Logo
-- Registered glfiddle.com, now do something with it.
 - demoscene (Dr Who) -- uses dancer.js
   - [inspiration](http://www.mrhobo.nl/hobovis/hobovis3.html)
 - Osd
