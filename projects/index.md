@@ -1,10 +1,9 @@
 
 # Projects
 
-- monarchy: CUT AND RUN.  Minify, deploy, make super-short blog entry.
 - Book and Giza
   - Chapter 2 verbiage
-- backlot
+- lotback
   - click prims away, snap 'em back, hover for info
   - google fonts, minified GIZA, meteor
   - aval/bin/mserve -- upload.py (uses pymongo) and populate.py (calls out to SdtUtil.Subdivider)
