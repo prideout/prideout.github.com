@@ -7,6 +7,8 @@
   - click prims away, snap 'em back, hover for info
   - google fonts, minified GIZA, meteor
   - aval/bin/mserve -- upload.py (uses pymongo) and populate.py (calls out to SdtUtil.Subdivider)
+- Interactive career timeline May 6 2013 
+- move this page to private repo, host on aws
 - Blog Entry on Quad Meshes
   - new Linux machine, OptiX is another excuse.
   - ivec3 -> ivec4 where w is a bitset for sharpness (punt porting the Gizmo shape, carrying creases through OSD)
