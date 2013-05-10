@@ -25,6 +25,7 @@
   - alembic interop
   - GL spec / impl
 - **WebPelt** TopoJSON meets uvlayout
+- AO cloud renderer built on AWS
 - SketchUp clone for Web
 - Cuboid clone for Web
 - [kineticjs](http://www.html5canvastutorials.com/kineticjs/html5-canvas-events-tutorials-introduction-with-kineticjs/)
