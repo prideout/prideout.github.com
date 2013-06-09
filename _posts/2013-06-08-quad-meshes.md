@@ -92,12 +92,10 @@ void main()
     vCrease = 0;
     uvec4 faces = texelFetch(VertexToFace, int(gl_VertexID));
     vec3 n = vec3(0);
-    vec3 previous = vec3(1);
     for (int c = 0; c < 4; c++) {
         if (faces[c] != 0xffffu) {
             int quad = int(faces[c]);
             vec3 facetNormal = texelFetch(FacetNormals, quad).xyz;
-            previous = facetNormal;
             n += facetNormal;
         }
     }
