@@ -74,7 +74,7 @@ If the faceted look isn't what you need, computing smooth normals is also possib
     glEndTransformFeedback();
     glDisable(GL_RASTERIZER_DISCARD);
 
-For the second pass, bind the facet normals as texture buffer, along with a vertex-to-face lookup table:
+For the second pass, bind the facet normals as a texture buffer, along with a vertex-to-face lookup table:
 
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_BUFFER, textures.vertexToFace);
@@ -115,4 +115,4 @@ This could be improved by creating a buffer with sharpness information, similar 
 
 ## Disclaimer
 
-Keep in mind that tessellation shaders are the way to go if you're being truly modern, in which case most of this article is moot.  Moreover, Pixar's OpenSubdiv library provides tessellation shaders for you.  However, if you need to support older platforms (e.g., Apple's current OpenGL implementation) then you might want to consider the techniques discussed in this article.  Check out [my github repo](https://github.com/prideout/quadmesh) for a code sample.
+Keep in mind that tessellation shaders are the way to go if you're being truly modern, in which case most of this article is moot.  Moreover, Pixar's OpenSubdiv library provides tessellation shaders for you.  However, if you need to support older platforms (e.g., Apple's current OpenGL implementation) then you might want to consider the techniques discussed in this article.  Check out [my github repo](https://github.com/prideout/quadmesh) for a code sample, which builds on OS X and Linux.
