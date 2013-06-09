@@ -1,7 +1,7 @@
 ---
 layout: page
 tags : [opengl]
-description : "Efficient rendering of quad meshes with OpenGL (core profile) and computing smooth normals on the GPU with transform feedback."
+description : "Tricks for rendering quad meshes with OpenGL (core profile) and computing smooth normals with transform feedback."
 thumbnail : QuadMesh-masked.png
 ---
 {% include JB/setup %}
