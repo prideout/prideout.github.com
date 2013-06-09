@@ -1,7 +1,7 @@
 ---
 layout: page
 tags : [opengl]
-description : "Efficient rendering of animated quad meshes with OpenGL and computing smooth normals on the GPU with transform feedback."
+description : "Efficient rendering of quad meshes with OpenGL (core profile) and computing smooth normals on the GPU with transform feedback."
 thumbnail : QuadMesh-masked.png
 ---
 {% include JB/setup %}
@@ -116,3 +116,5 @@ This could be improved by creating a buffer with sharpness information, similar 
 ## Disclaimer
 
 Keep in mind that tessellation shaders are the way to go if you're being truly modern, in which case most of this article is moot.  Moreover, Pixar's OpenSubdiv library provides tessellation shaders for you.  However, if you need to support older platforms (e.g., Apple's current OpenGL implementation) then you might want to consider the techniques discussed in this article.  Check out [my github repo](https://github.com/prideout/quadmesh) for a code sample, which builds on OS X and Linux.
+
+Also be aware that some GPUs don't handle geometry shaders very well, and that they can be detrimental to performance.  You might be better off with indexed triangles or triangle strips in these cases, despite the annoying repetition of indices.
