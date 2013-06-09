@@ -70,7 +70,7 @@ If the faceted look isn't what you need, computing smooth normals is also possib
     glEnable(GL_RASTERIZER_DISCARD);
     glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, buffers.facetNormals);
     glBeginTransformFeedback(GL_POINTS);
-    glDrawArrays(GL_POINTS, 0, numQuads);
+    //...draw quads here...
     glEndTransformFeedback();
     glDisable(GL_RASTERIZER_DISCARD);
 
