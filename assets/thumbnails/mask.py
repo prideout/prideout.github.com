@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
-import cairo, Image, os, sys
+import cairo, os, sys
+from PIL import Image
 
 def draw_rounded(cr, area, radius):
     """ draws rectangles with rounded (circular arc) corners """

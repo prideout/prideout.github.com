@@ -1,5 +1,6 @@
 #!/usr/bin/python
-import Image, ImageEnhance, ImageFilter, sys, os
+from PIL import Image, ImageEnhance, ImageFilter
+import sys, os
 
 root, ext = os.path.splitext(sys.argv[1])
 
