@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 import cairo, os, sys
 from PIL import Image
@@ -41,7 +41,8 @@ mask.load()
 
 sourceChannels = source.split()
 maskChannels = mask.split()
-dest = Image.merge("RGBA", (sourceChannels[0:3]) + (maskChannels[3],))
+#dest = Image.merge("RGBA", (sourceChannels[0:3]) + (maskChannels[3],))
+dest = Image.merge("LA", (sourceChannels[0],) + (maskChannels[3],))
 
 masked = root.split('-')[0] + "-masked" + ext
 #import code; code.interact(local=locals()) # uncomment to break debug interactive
