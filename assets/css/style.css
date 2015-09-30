@@ -31,6 +31,16 @@ body {
   border: 0;
 }
 
+.small-image {
+    width: 200px;
+}
+
+.nice-image {
+    /*margin: 0 auto;
+    display: block;*/
+    border: 0px solid #788;
+	border-radius:20px;
+}
 
 /* tag_box ======================================================== */
 
@@ -63,4 +73,3 @@ body {
 	border:1px solid #4C964D;
 	color:#FFF;
 }
-	
