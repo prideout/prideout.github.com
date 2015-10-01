@@ -159,3 +159,5 @@ If the user moves the cursor around in the canvas, the demo performs an O(1) loo
 Another nice thing about coordinate fields is that they can be perfectly magnified.
 
 Note that sub-pixel accuracy is possible, if you encode a floating-point coordinate when generating the seed image!
+
+<i>Coffee should be hot as hell, black as the devil, pure as an angel, sweet as love.</i>
