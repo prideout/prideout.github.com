@@ -1,7 +1,6 @@
 
 exclude: [".rvmrc", ".rbenv-version", "README.md", "Rakefile", "changelog.md"]
-auto: true
-pygments: true
+highlighter: true
 permalink: /:title
 
 # Themes are encouraged to use these universal variables 
