@@ -95,7 +95,9 @@ Next I'd like to introduce a new function that leverages the EDT function, but p
     <mo>|</mo>
     <mspace depth="0.5ex" height="0.5ex" width="1ex">
     </mspace>
-    <mi>d</mi><mfenced><mi>q</mi></mfenced>
+    <mfenced open="&#x2225;" close="&#x2225;" separators="">
+        <mi>p</mi><mo>-</mo><mi>q</mi>
+    </mfenced>
     <mo>=</mo>
     <mi>d</mi><mfenced><mi>p</mi></mfenced>
     <mo>}</mo>
