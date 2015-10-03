@@ -20,9 +20,9 @@ thumbnail : CpcfIcon-masked.png
 This post introduces closest point coordinate fields (CPCF's), which are two-channel images related to Voronoi diagrams and distance fields.
 
 <!--CPCF's are useful for pick sheets and map coloration, and might have applications in path planning, collision detection, and rendering that I don't know about yet.-->
-The image in the far left panel is an example _seed image_ and its CPCF is depicted to its right.  This CPCF was used to generate the Voronoi diagram and distance field shown in the two rightmost panels.
+The image in the far left panel is an example seed image and its CPCF is depicted to its right.  The CPCF was easily transformed into the Voronoi diagram and distance field shown in the two rightmost panels.
 
-## Math
+---
 
 The _Euclidean distance transform_ (EDT) can be defined as the following function, which consumes a set of seed points <math><mi>&#x1D4AE;</mi></math> and produces a value for every <math><mi>p</mi></math> in <math><msup><mi>&#x211D;</mi><mi>2</mi></msup></math>:
 
@@ -81,7 +81,7 @@ Sampling the above function over a grid results in an unsigned distance field.  
 
 This led to their linear-time algorithm, which is probably the best way to generate the SDF on a CPU, because it's simple and fast.
 
-Next I'd like to introduce a new function that leverages the EDT function, but produces a set of coordinates instead of a scalar value:
+Next I'd like to introduce a new function that leverages the EDT function, but produces a set of points instead of a scalar value:
 
 <math display="block">
     <mi>g</mi><mfenced><mi>p</mi></mfenced>
@@ -101,13 +101,13 @@ Next I'd like to introduce a new function that leverages the EDT function, but p
     <mo>}</mo>
 </math>
 
-In practice, evaluating the above function usually results in a set that has only one element.  The set has multiple items only when several seed points "tie for first place", which only occurs along the edges of the Voronoi diagram produced by <math><mi>&#x1D4AE;</mi></math>.
+The above function usually results in a set that has only one element.  The set has multiple items only when several seed points "tie for first place", which occurs along the edges of the Voronoi diagram produced by <math><mi>&#x1D4AE;</mi></math>.
 
 Let's just pick a random tiebreaker from each set; we'll call this <math><msub><mi>g</mi><mn>0</mn></msub></math> instead of <math><mi>g</mi></math>.  If we sample <math><msub><mi>g</mi><mn>0</mn></msub></math> over a grid, the result is the CPCF.
 
-Typically you can accurately represent a CPCF using an image format that has two unsigned 16-bit integers per pixel, for a total of 32 bits per pixel.
+Typically you can accurately represent a CPCF using an image format that has two 16-bit integers per pixel, for a total of 32 bits per pixel.
 
-The CPCF is cool because it can be trivially transformed into a distance field and takes the same amount of storage space, yet it encodes more information.  Another cool thing about CPCF's is that they result from Rong and Tan's [jump flooding](https://sites.google.com/site/rongguodong/) algorithm, which is probably the fastest way to compute a distance field on a GPU.
+The CPCF is cool because it can be trivially transformed into a distance field, but encodes more information than a distance field.  Another cool thing about CPCF's is that they result from Rong and Tan's [jump flooding](https://sites.google.com/site/rongguodong/) algorithm, which is probably the fastest way to compute a distance field on a GPU.
 
 Here's how to transform a CPCF into a distance field:
 
@@ -124,40 +124,48 @@ Here's how to transform a CPCF into a distance field:
 
 In GLSL, transforming a CPCF into a distance field looks like this:
 
-    dist = distance(uv, texture(cpcf, uv));
+    dist = distance(uv, texture(cpcf, uv).st);
     gl_FragColor = vec4(dist, dist, dist, 1);
 
 Voronoi diagrams can also be trivially derived from coordinate fields, if you bind the seed image to a second texture stage.  In GLSL, this transformation looks like this:
 
-    vec2 st = texture(cpcf, uv);
+    vec2 st = texture(cpcf, uv).st;
     gl_FragColor = texture(seed, st);
+
+# Applications
 
 ## Warped CPCF's
 
-In the following image sequence, we apply a warping operation to the CPCF using several octaves of Perlin noise.  The resulting Voronoi diagram is terrain-like, with noisy political boundaries.  In the last panel, we use the implicit distance field to create mountains and radiating contours.
+In the following image sequence, we apply a warping operation to the CPCF using several octaves of Perlin noise.  The resulting Voronoi diagram is terrain-like, with interesting political boundaries.  In the last panel, we use the implicit distance field to create mountains and radiating contours.
 
 <a href="{{ ASSET_PATH }}/figures/CpcfNoisy.png">
 <img src="{{ ASSET_PATH }}/thumbnails/CpcfNoisy.png" class="nice-image">
 </a>
 
-These images were generated using archipelago functionality ([doc page](http://heman.readthedocs.org/en/latest/generate.html#archipelagos)) in the heman C library ([github project](https://github.com/prideout/heman)).
+These images were generated using the archipelago functionality ([doc page](http://heman.readthedocs.org/en/latest/generate.html#archipelagos)) in the heman C library ([github project](https://github.com/prideout/heman)).
 
 <!--
 We use some of the techniques in this post to generate the maps at [mappable.com](http://mappable.com), which you should definitely check out if you're into music!
 -->
 
-# Applications
-
 ## Picking
 
-![DistancePicking Screenshot]({{ BASE_PATH }}/assets/thumbnails/DistancePicking-halved.png){: .nice-image .small-image}
+![DistancePicking Screenshot]({{ BASE_PATH }}/assets/figures/CpcfPicking.png){: .nice-image .small-image}
 
-If the user moves the cursor around in the canvas, the demo performs an O(1) lookup into the coordinate field to find the nearest point, then draws a line to that point.  This technique is potentially very useful when implementing object selection.
+One use of CPCF's is fuzzy picking.  With modern GPU's, you can continuously perform jump flooding on a low-resolution framebuffer in real time.  By making an O(1) lookup into the resulting CPCF, you can obtain the nearest "pixel of interest" relative to the user's touch point.
 
-## Infinite Zoom
+## High Quality Magnification of Voronoi Diagrams
 
-Another nice thing about coordinate fields is that they can be perfectly magnified.
+Another nice thing about coordinate fields is that they allow you to perform high quality magnification of Voronoi diagrams using only image data.
 
 Note that sub-pixel accuracy is possible, if you encode a floating-point coordinate when generating the seed image!
 
-<i>Coffee should be hot as hell, black as the devil, pure as an angel, sweet as love.</i>
+<i>
+Philip Rideout
+<br>
+October 2015
+</i>
+
+---
+
+<i style="font-size:8px">Coffee should be hot as hell, black as the devil, pure as an angel, sweet as love.</i>
