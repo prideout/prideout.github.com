@@ -47,7 +47,7 @@ The _Euclidean distance transform_ (EDT) can be defined as the following functio
 
 Sampling the above function over a grid results in an unsigned distance field.  (As opposed to a _signed distance field_, which can be generated via composition with an EDT that takes the complement of <math><mi>&#x1D4AE;</mi></math>.)
 
-[Felzenszwalb and Huttenlocher](http://cs.brown.edu/~pff/dt/index.html) generalized this into the following equation, which is easiest to understand when considering a function <math><mi>f</mi></math> that returns 0 if its input is in  &#x1D4AE;, and &#x221E; otherwise.
+[Felzenszwalb and Huttenlocher](http://cs.brown.edu/~pff/dt/index.html) generalized this into the following equation, which is easiest to understand when considering a function <math><mi>f</mi></math> that returns 0 if its input is in  <math><mi>&#x1D4AE;</mi></math>, and &#x221E; otherwise.
 
 <math display="block">
 <mrow>
