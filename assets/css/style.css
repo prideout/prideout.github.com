@@ -40,6 +40,10 @@ hr {
     width: 200px;
 }
 
+.med-image {
+    width: 90%;
+}
+
 .nice-image {
     /*margin: 0 auto;
     display: block;*/

@@ -105,9 +105,17 @@ The above function usually results in a set that has only one element.  The set 
 
 Let's just pick a random tiebreaker from each set; we'll call this <math><msub><mi>g</mi><mn>0</mn></msub></math> instead of <math><mi>g</mi></math>.  If we sample <math><msub><mi>g</mi><mn>0</mn></msub></math> over a grid, the result is the CPCF.
 
-Typically you can accurately represent a CPCF using an image format that has two 16-bit integers per pixel, for a total of 32 bits per pixel.
+<!-- Here's a depiction of <math><mi>&#x1D4AE;</mi></math>, <math><mi>g</mi></math>, and  <math><msub><mi>g</mi><mn>0</mn></msub></math>: -->
 
-The CPCF is cool because it can be trivially transformed into a distance field, but encodes more information than a distance field.  Another cool thing about CPCF's is that they result from Rong and Tan's [jump flooding](https://sites.google.com/site/rongguodong/) algorithm, which is probably the fastest way to compute a distance field on a GPU.
+<a href="{{ ASSET_PATH }}/figures/CpcfGen.png">
+<img src="{{ ASSET_PATH }}/figures/CpcfGen.png" class="nice-image med-image">
+</a>
+
+Typically you can accurately represent a CPCF using an image format that has two 16-bit integers per pixel.
+
+The CPCF is cool because it can be trivially transformed into a distance field, but encodes more information than a distance field.
+
+CPCF's are the direct result of Rong and Tan's [jump flooding](https://sites.google.com/site/rongguodong/) algorithm, which is probably the fastest way to compute a distance field on a GPU.
 
 Here's how to transform a CPCF into a distance field:
 
@@ -148,17 +156,21 @@ These images were generated using the archipelago functionality ([doc page](http
 We use some of the techniques in this post to generate the maps at [mappable.com](http://mappable.com), which you should definitely check out if you're into music!
 -->
 
-## Picking
+## Closest Point Picking
 
 ![DistancePicking Screenshot]({{ BASE_PATH }}/assets/figures/CpcfPicking.png){: .nice-image .small-image}
 
-One use of CPCF's is fuzzy picking.  With modern GPU's, you can continuously perform jump flooding on a low-resolution framebuffer in real time.  By making an O(1) lookup into the resulting CPCF, you can obtain the nearest "pixel of interest" relative to the user's touch point.
+Another use of CPCF's is fuzzy picking.  With modern GPU's, you can continuously perform jump flooding on a low-resolution framebuffer in real time.  By making an O(1) lookup into the resulting CPCF, you can obtain the nearest "pixel of interest" relative to the user's touch point.
 
-## High Quality Magnification of Voronoi Diagrams
+## High Quality Magnification
 
-Another nice thing about coordinate fields is that they allow you to perform high quality magnification of Voronoi diagrams using only image data.
+Coordinate fields enable high quality magnification of Voronoi diagrams using only image data.  The following diagram illustrates 2x magnification of the CPCF pixel at <b>2,1</b>, which happens to be equidistant from the two seed points.  In the middle panel, we arbitrarily chose the blue seed as the tiebreaker.  In the far right panel, we've computed 4 new CPCF values.  Each new value is computed by sampling 4 pixels from the middle panel, reevaluating the distances to their referenced seed points, and selecting the minimum values.
 
-Note that sub-pixel accuracy is possible, if you encode a floating-point coordinate when generating the seed image!
+<a href="{{ ASSET_PATH }}/figures/CpcfMag.png">
+<img src="{{ ASSET_PATH }}/figures/CpcfMag.png" class="nice-image med-image">
+</a>
+
+<!-- Note that sub-pixel accuracy is possible, if you encode a floating-point coordinate when generating the seed image! -->
 
 <i>
 Philip Rideout
