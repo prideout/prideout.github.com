@@ -135,7 +135,7 @@ In GLSL, transforming a CPCF into a distance field looks like this:
     dist = distance(uv, texture(cpcf, uv).st);
     gl_FragColor = vec4(dist, dist, dist, 1);
 
-Voronoi diagrams can also be trivially derived from coordinate fields, if you bind the seed image to a second texture stage.  In GLSL, this transformation looks like this:
+Drawing a Voronoi diagram can be accomplished by sampling from the CPCF and the seed image:
 
     vec2 st = texture(cpcf, uv).st;
     gl_FragColor = texture(seed, st);
