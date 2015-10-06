@@ -1,0 +1,6 @@
+curl https://api.mapbox.com/v4/mapbox.pencil/-122.3245,37.8743,20/1280x1280.png?access_token=pk.eyJ1IjoicHJpZGVvdXQiLCJhIjoiY2lmZmF1d3I3ODRuOXM0bTcxa2pjeHJocyJ9.yPO6Vg1SY8VTpRsZpwacfA > marina_z20.png
+curl https://api.mapbox.com/v4/mapbox.pencil/-122.3245,37.8743,15/1280x1280.png?access_token=pk.eyJ1IjoicHJpZGVvdXQiLCJhIjoiY2lmZmF1d3I3ODRuOXM0bTcxa2pjeHJocyJ9.yPO6Vg1SY8VTpRsZpwacfA > marina_z15.png
+curl https://api.mapbox.com/v4/mapbox.pencil/-122.3245,37.8743,10/1280x1280.png?access_token=pk.eyJ1IjoicHJpZGVvdXQiLCJhIjoiY2lmZmF1d3I3ODRuOXM0bTcxa2pjeHJocyJ9.yPO6Vg1SY8VTpRsZpwacfA > marina_z10.png
+curl https://api.mapbox.com/v4/mapbox.pencil/-122.3245,37.8743,5/1280x1280.png?access_token=pk.eyJ1IjoicHJpZGVvdXQiLCJhIjoiY2lmZmF1d3I3ODRuOXM0bTcxa2pjeHJocyJ9.yPO6Vg1SY8VTpRsZpwacfA > marina_z05.png
+curl https://api.mapbox.com/v4/mapbox.pencil/0,0,3/1280x1280.png?access_token=pk.eyJ1IjoicHJpZGVvdXQiLCJhIjoiY2lmZmF1d3I3ODRuOXM0bTcxa2pjeHJocyJ9.yPO6Vg1SY8VTpRsZpwacfA > origin_z03.png
+curl https://api.mapbox.com/v4/mapbox.pencil/0,0,2/1280x1280.png?access_token=pk.eyJ1IjoicHJpZGVvdXQiLCJhIjoiY2lmZmF1d3I3ODRuOXM0bTcxa2pjeHJocyJ9.yPO6Vg1SY8VTpRsZpwacfA > origin_z02.png
