@@ -14,11 +14,21 @@ First of all, if you're interested in this post, then you might be interested [3
 
 After some map imagery loads in, you'll see two interactive WebGL canvases below.  The blue crosshairs are located at a lookout point in César Chávez park, just north of the Berkeley Marina.  This happens to be the favorite spot of my two kids, whom you can see if you zoom in far enough.  Try zooming and panning as you would with Google Maps.
 
-<canvas id="canvas_low" style="width:400px;height:300px;border:solid 2px black">
-</canvas>
+<div style="width:400px;height:300px;border:solid 2px black;position:relative;display:inline-block">
+    <div style="z-index:0;bottom:0;left:0;position:absolute;width:100%;padding:20px;font-weight:bold">
+        Loading...
+    </div>
+    <canvas style="z-index:2;bottom:0;left:0;position:absolute;width:400px;height:300px" id="canvas_low" >
+    </canvas>
+</div>
 
-<canvas id="canvas_high" style="width:400px;height:300px;border:solid 2px black">
-</canvas>
+<div style="width:400px;height:300px;border:solid 2px black;position:relative;display:inline-block">
+    <div style="z-index:0;bottom:0;left:0;position:absolute;width:100%;padding:20px;font-weight:bold">
+        Loading...
+    </div>
+    <canvas id="canvas_high" style="z-index:2;bottom:0;left:0;position:absolute;width:400px;height:300px">
+    </canvas>
+</div>
 
 After zooming in enough to see my "kids", you might notice that the left canvas has jittery crosshairs, but the right one doesn't.  The left canvas uses a traditional model-view-projection matrix, while the right canvas pretends that the camera is at **(0,0,0)** when computing the MVP, then performs translation manually in the vertex shader.  The GLSL for this is shown below.
 
