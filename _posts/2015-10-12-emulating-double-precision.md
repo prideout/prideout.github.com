@@ -83,7 +83,7 @@ I haven't fully tested this, but here's a GLSL port of the "double-single" routi
 
 The map demo on this page was built using a small C99 library that I've been working on, running it through Emscripten with the flags `MODULARIZE=1` and `PRECISE_F32=1`.  If you don't use `PRECISE_F32`, then Emscripten will use doubles even for `float` variables, thus breaking the `split_double` code.
 
-To obtain map textures for the demo, I used the really awesome [Static maps API](https://www.mapbox.com/developers/api/static/) from [http://mapbox.com](mapbox.com).
+To obtain map textures for the demo, I used the really awesome [Static maps API](https://www.mapbox.com/developers/api/static/) from [mapbox.com](http://mapbox.com).
 
 ### References
 
