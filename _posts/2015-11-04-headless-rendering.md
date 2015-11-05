@@ -1,6 +1,6 @@
 ---
 layout: page
-tags : [opengl]
+tags : [opengl, cloud, nvidia]
 description : "Diary of adventures with headless OpenGL on an EC2 server."
 thumbnail : Headless-masked.png
 ---
@@ -10,13 +10,17 @@ thumbnail : Headless-masked.png
 
 I recently had the idea of using the cloud for continuous integration of a graphics engine.  This gave me an excuse to play with a GRID machine at Amazon.
 
-Please note that I am by no means a backend engineer, and that I'm a total caveman when it comes to AWS.  This article is just a diary, in case my future self needs it, or any like-minded cavemen and cavewomen.
+Please note that I am by no means a backend engineer, and that I'm a total caveman when it comes to AWS.  This article is just a diary, in case my future self needs it.
 
-In my notes, anything in <span class="madlib">blue italics</span> is a placeholder and can be replaced with whatever string happens to be appropriate in your case.
+In my notes, anything in <span class="madlib">blue italics</span> is a placeholder and can be replaced with whatever string happens to be appropriate.
 
 <!--In the snippets below, sometimes the shell commands end in semicolons.  This allows you to copy-and-paste a sequence of commands into a terminal.  In the real world, you'd probably want to write bash scripts, or Python scripts that use the <b>boto</b> package.-->
 
-TBD: include a TOC here
+This post has three sections:
+
+- Configuring AWS and setting up security stuff
+- Creating an AMI for building OpenGL apps
+- Building and running my graphics project
 
 ---
 
@@ -38,20 +42,22 @@ aws ec2 create-key-pair --key-name <span class="madlib">pdawg</span> --query 'Ke
 chmod 400 <span class="madlib">personalaws.pem</span>
 </pre>
 
-And...a security group.
+I also had to create a security group that allowed SSH connections.
 
 <pre>
 export SGROUP=`aws ec2 create-security-group --group-name <span class="madlib">cisec</span> --description "headless"`
 aws ec2 authorize-security-group-ingress --group-id $SGROUP --protocol tcp --port 22 --cidr 0.0.0.0/0
+<!--
 aws ec2 authorize-security-group-ingress --group-id $SGROUP --protocol tcp --port 80 --cidr 0.0.0.0/0
 aws ec2 authorize-security-group-ingress --group-id $SGROUP --protocol tcp --port 8080 --cidr 0.0.0.0/0
+-->
 </pre>
 
 ---
 
 **Creating my very own AMI**
 
-To bootstrap my project, I instantiated an AMI from NVIDIA that I found in the AMI marketplace; it has a September 2015 driver pre-installed, and its image id is in the snippet below.
+In order to have a decent starting point, I instantiated an AMI from NVIDIA that I found in the marketplace.  It seems to have a September 2015 driver pre-installed.  Its image id is in the snippet below.
 
 <pre>
 export SGROUP=`aws ec2 describe-security-groups --group-name <span class="madlib">cisec</span> --query 'SecurityGroups[*].[GroupId]'`
@@ -119,7 +125,7 @@ OpenGL version string: 4.4.0 NVIDIA 340.32
 OpenGL shading language version string: 4.40 NVIDIA via Cg compiler
 </pre>
 
-Woo, the original AMI that I chose had the NVIDIA drivers properly pre-installed!
+This was definitely a w00t moment -- proper GPU acceleration for the win!
 
 Next I built GLFW, since that's my favorite GLUT replacement nowadays.
 
@@ -129,7 +135,7 @@ pushd glfw* && cmake . && sudo make install && popd
 rm -rf glfw*
 </pre>
 
-At this point, I figured I had a pretty decent development environment.  No more sudo-style commands from this point forward.
+At this point, I figured I had a pretty decent development environment.  No more sudo commands from this point forward.
 
 So, I cloned the instance to create my very own AMI, then killed off the prototype.
 
