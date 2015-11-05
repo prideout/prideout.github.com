@@ -9,9 +9,6 @@ title: The Little Grasshopper
   </style>
   {% for post in site.posts %}
   <li id="{{ post.id | remove:'/' }}" style="padding-top:20px;padding-bottom:20px">
-    <style type="text/css">
-      li#{{ post.id | remove:'/' }}:hover { background-color: #fff }
-    </style>
 
     {% if post.special_url != nil %}
         <a href="{{ post.special_url }}" >
@@ -23,7 +20,7 @@ title: The Little Grasshopper
         <div class="span3">
           <img src="{{ BASE_PATH }}/assets/thumbnails/{{ post.thumbnail }}" alt="thumbnail" style="width:128px;height:72px;"/>
         </div>
-        
+
         <div class="span9">
           <strong class="PostTitle" style="font-size:22px" >{{ post.title }}</strong>
           <p class="PostDesc" style="font-size:18px;color:#0a0a0a;margin-top:2px">

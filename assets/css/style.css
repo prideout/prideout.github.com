@@ -17,6 +17,15 @@ hr {
     width:100%;
 }
 
+.posts li {
+    border-top:solid #e0e0e0 1px;
+    border-bottom:solid #e0e0e0 1px;
+}
+
+.posts li:hover {
+    background-color: #F5F5F3;
+}
+
 /* The white background content wrapper */
 .content {
   background-color: #efefed;
@@ -81,4 +90,9 @@ hr {
 	background:#57A957;
 	border:1px solid #4C964D;
 	color:#FFF;
+}
+
+.madlib {
+    color: blue;
+    font-style: italic;
 }
