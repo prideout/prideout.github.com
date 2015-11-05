@@ -14,7 +14,7 @@ Please note that I am by no means a backend engineer, and that I'm a total cavem
 
 In my notes, anything in <span class="madlib">blue italics</span> is a placeholder and can be replaced with whatever string happens to be appropriate in your case.
 
-In the snippets below, sometimes the shell commands end in semicolons.  This allows you to copy-and-paste a sequence of commands into a terminal.  In the real world, you'd probably want to write bash scripts, or Python scripts that use the <b>boto</b> package.
+<!--In the snippets below, sometimes the shell commands end in semicolons.  This allows you to copy-and-paste a sequence of commands into a terminal.  In the real world, you'd probably want to write bash scripts, or Python scripts that use the <b>boto</b> package.-->
 
 TBD: include a TOC here
 
@@ -41,46 +41,42 @@ chmod 400 <span class="madlib">personalaws.pem</span>
 And...a security group.
 
 <pre>
-export SGROUP=`aws ec2 create-security-group --group-name <span class="madlib">cisec</span> --description "headless"` ;
-aws ec2 authorize-security-group-ingress --group-id $SGROUP --protocol tcp --port 22 --cidr 0.0.0.0/0 ;
-aws ec2 authorize-security-group-ingress --group-id $SGROUP --protocol tcp --port 80 --cidr 0.0.0.0/0 ;
+export SGROUP=`aws ec2 create-security-group --group-name <span class="madlib">cisec</span> --description "headless"`
+aws ec2 authorize-security-group-ingress --group-id $SGROUP --protocol tcp --port 22 --cidr 0.0.0.0/0
+aws ec2 authorize-security-group-ingress --group-id $SGROUP --protocol tcp --port 80 --cidr 0.0.0.0/0
 aws ec2 authorize-security-group-ingress --group-id $SGROUP --protocol tcp --port 8080 --cidr 0.0.0.0/0
 </pre>
 
 ---
 
-**Setting up the instance**
+**Creating my very own AMI**
 
-I accidentally closed my terminal so recovered the security group id like this:
+To bootstrap my project, I instantiated an AMI from NVIDIA that I found in the AMI marketplace; it has a September 2015 driver pre-installed, and its image id is in the snippet below.
 
 <pre>
 export SGROUP=`aws ec2 describe-security-groups --group-name <span class="madlib">cisec</span> --query 'SecurityGroups[*].[GroupId]'`
-</pre>
-
-Next, I instantiated the actual Amazon Linux AMI.  I found one from NVIDIA that has a September 2015 driver pre-installed; its image id is in the snippet below.
-
-<pre>
-export IMAGEID=ami-17985c53 ; # September 2015 NVIDIA package. ;
+export IMAGEID=ami-17985c53 ; # September 2015 NVIDIA package.
 export INSTANCEID=`aws ec2 run-instances --image-id $IMAGEID --count 1 \
     --instance-type g2.2xlarge --key-name <span class="madlib">pdawg</span> \
-    --security-group-ids $SGROUP --query 'Instances[*].[InstanceId]' `;
+    --security-group-ids $SGROUP --query 'Instances[*].[InstanceId]' `
 aws ec2 describe-instances --query 'Reservations[*].Instances[*].[State.Name,PublicDnsName]' \
     --instance-ids $INSTANCEID
 </pre>
 
-The last command in the above snippet can be used at any time to check up on the status of your new instance.
+After creating the instance, I had to wait a minute or two for the machine to become available.  I invoked the above `describe-instances` command a few times to check up on the status.
 
-Now, wait a minute for instance to become ready to accept ssh connections, then query its DNS name and ssh into it, like this:
+When the machine became ready, I asked for its DNS name and tried establishing an SSH connection.
 
 <pre>
 export DNSNAME=`aws ec2 describe-instances --query 'Reservations[*].Instances[*].[PublicDnsName]' \
-    --instance-ids $INSTANCEID` ;
+    --instance-ids $INSTANCEID`
 ssh -i <span class="madlib">personalaws.pem</span> ec2-user@$DNSNAME
 </pre>
 
-Did it work?  Good.  Now, quit ssh and create a setup script:
+Next, I wanted to do a bunch of `yum install` stuff so I quit the shell and created a script on my local machine.
 
 <pre>
+cat > setup.sh
 ######################################
 echo Installing and configuring git...
 sudo yum install git -y
@@ -93,60 +89,104 @@ echo Installing and configuring developer tools...
 sudo yum install gcc-c++ libX*-devel mesa-libGL-devel curl-devel -y
 sudo yum install emacs glx-utils cmake -y
 echo 'export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig' >> .bashrc
-. .bashrc
-</pre>
-
-Next re-connect to the machine and run the script:
-
-<pre>
-^D
-scp -i <span class="madlib">personalaws.pem</span> setup.sh ec2-user@$DNSNAME:/home/ec2-user/setup.sh;
-ssh -i <span class="madlib">personalaws.pem</span> ec2-user@$DNSNAME;
-. setup.sh
-</pre>
-
-Even for headless OpenGL, we still need to run an X server; we just won't interact with it or look at a desktop.  Let's go ahead and spawn X, then quit the SSH session to avoid X spewage in the console.
-
-<pre>
-echo 'export DISPLAY=:0' >> .bashrc ; . .bashrc ; sudo /usr/bin/X $DISPLAY &
+source .bashrc
 ^D
 </pre>
 
-Now, start a new SSH session and ensure that the output of `glxinfo` looks reasonable.  "NVIDIA" should appear several times in the output.
+Next I copied my script over to the remote machine, connected to it and ran the script.
 
 <pre>
-ssh -i personalaws.pem ec2-user@$DNSNAME ;
-glxinfo | grep NVIDIA
+scp -i <span class="madlib">personalaws.pem</span> setup.sh ec2-user@$DNSNAME:/home/ec2-user/setup.sh
+ssh -i <span class="madlib">personalaws.pem</span> ec2-user@$DNSNAME
+source setup.sh && rm setup.sh
 </pre>
 
-### Building GLFW and my little project
-
-First, GLFW:
+Even for headless OpenGL, I realized I had to run an X server -- I just didn't need a desktop.  Here's how I managed to get the instance to automatically run X.  This probably isn't the best way to do it, but changing the runlevel in `/etc/inittab` didn't seem to work.
 
 <pre>
-git clone https://github.com/prideout/glfw.git && cd glfw;
-cmake . && sudo make install && cd ..
+echo '/usr/bin/X :0 &' | sudo tee -a /etc/rc.d/rc.local
+echo 'export DISPLAY=:0' >> .bashrc
+sudo reboot
 </pre>
 
-Now, build your project and generate a screenshot:
+After the reboot, I re-connected and ran `glxinfo | grep NVIDIA` to make sure the GPU driver was kosher.  This is what I saw:
 
 <pre>
-git clone https://prideout@github.com/prideout/parg.git && cd parg ;
-cmake -H. -Bbuild -DOPENGL_LIB='' && cmake --build build ;
-./build/picking -capture picking.png
+server glx vendor string: NVIDIA Corporation
+client glx vendor string: NVIDIA Corporation
+OpenGL vendor string: NVIDIA Corporation
+OpenGL version string: 4.4.0 NVIDIA 340.32
+OpenGL shading language version string: 4.40 NVIDIA via Cg compiler
+</pre>
+
+Woo, the original AMI that I chose had the NVIDIA drivers properly pre-installed!
+
+Next I built GLFW, since that's my favorite GLUT replacement nowadays.
+
+<pre>
+curl -L https://github.com/glfw/glfw/archive/3.1.2.tar.gz | tar xz
+pushd glfw* && cmake . && sudo make install && popd
+rm -rf glfw*
+</pre>
+
+At this point, I figured I had a pretty decent development environment.  No more sudo-style commands from this point forward.
+
+So, I cloned the instance to create my very own AMI, then killed off the prototype.
+
+<pre>
 ^D
+export MYAMI=`aws ec2 create-image --instance-id $INSTANCEID --name <span class="madlib">opengldev</span> --query 'ImageId'`
+echo $MYAMI
+<span class="madlib">...wait for the AMI to crystalize...</span>
+aws ec2 terminate-instances --instance-ids $INSTANCEID
 </pre>
 
-Now, copy over the screenshots and enjoy:
+---
+
+**Building and running my graphics project**
+
+Now that I had a nice pristine template for development, I instantiated a new instance.
 
 <pre>
-scp -i personalaws.pem ec2-user@$DNSNAME:/home/ec2-user/parg/picking.png .
-open picking.png
+export SGROUP=`aws ec2 describe-security-groups --group-name <span class="madlib">cisec</span> --query 'SecurityGroups[*].[GroupId]'`
+export MYAMI=`aws ec2 describe-images --owners self \
+    --filters="Name=name,Values=<span class="madlib">opengldev</span>" --query Images[*].[ImageId]`
+export INSTANCEID=`aws ec2 run-instances --image-id $MYAMI --count 1 \
+    --instance-type g2.2xlarge --key-name <span class="madlib">pdawg</span> \
+    --security-group-ids $SGROUP --query 'Instances[*].[InstanceId]' `
 </pre>
 
-Uhhh, wait why were the screenshots blank?  It turned out that I had to modify my code to render to an FBO, instead of straight to the backbuffer.  Maybe because the backbuffer didn't exist?  Interestingly, it was necessary in an XWindows environment but not in a OS X environment.
+After a waiting a minute for the machine to boot, I connected to it.
 
-Finally, I was sure to terminate the instance, to avoid paying Amazon even more than I already do:
+<pre>
+export DNSNAME=`aws ec2 describe-instances --query 'Reservations[*].Instances[*].[PublicDnsName]' \
+    --instance-ids $INSTANCEID`
+ssh -i <span class="madlib">personalaws.pem</span> ec2-user@$DNSNAME
+</pre>
+
+Finally, it was time to clone my personal project, build it, and run the test.
+
+<pre>
+git clone https://prideout@github.com/prideout/parg.git && cd parg
+cmake -H. -Bbuild -DOPENGL_LIB='' && cmake --build build
+./build/trefoil -capture trefoil.png
+</pre>
+
+Invoking the test caused X11 to complain about using RandR without a physical monitor.  <span class="madlib">Note to self: make a pull request to GLFW to allow users to disable RandR usage?</span>
+
+Anyway, the X11 spew is harmless as far as I can tell.  Next, I copied over the screenshot and opened the image on my local machine.
+
+<pre>
+^D
+scp -i <span class="madlib">personalaws.pem</span> ec2-user@$DNSNAME:/home/ec2-user/parg/trefoil.png .
+open trefoil.png
+</pre>
+
+To my dismay the screenshot was an empty image!  My screenshot grabbing code was straightforward; it issued a **glReadPixels**, then used **stbi_write_png** on the results.
+
+<span style="color:red;font-weight:bold">To fix this, I had to modify my graphics test to render to an FBO instead of the backbuffer.</span>  Maybe because the backbuffer didn't exist?  Interestingly, this seems necessary in an X11 environment but not in a OS X environment.
+
+Anyway, the final step was termination of the instance, to avoid paying Amazon even more than I already do:
 
 <pre>
 aws ec2 terminate-instances --instance-ids $INSTANCEID
