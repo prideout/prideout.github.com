@@ -14,7 +14,7 @@ The Recursive Wang Tiles method for generating blue noise ([Kopf 2006](http://gi
 
 Here's a single-file C library that implements the real-time portion of the Recursive Wang Tiles algorithm (as opposed to tile construction).
 
-* [bluenoise.c](https://github.com/prideout/parg/blob/master/src/bluenoise.c)
+* [par_bluenoise.h](https://github.com/prideout/par/blob/master/par_bluenoise.h)
 
 To show off the library, I used emscripten to create the two demos on this page.  Below are links to the density textures used in these demos.
 
