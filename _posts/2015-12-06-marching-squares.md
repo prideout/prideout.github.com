@@ -22,9 +22,9 @@ par_msquares_meshlist* par_msquares_from_color(uint8_t const* data, int width,
 
 Both of these functions consume a packed array of image data and produce one or triangle meshes.  The `from_grayscale` function consumes floating-point data (one 32-bit float per pixel), while the `from_color` function consumes color data (one to four bytes per pixel).
 
-The library also proffers a lower-level function that takes a callback function instead of image data, but the above two entry points are the easiest way to get your feet wet.
+The library also proffers a lower-level function that takes a callback instead of image data, but the above two entry points are the easiest way to get your feet wet.
 
-The returned mesh list pointer is opaque, but clients can peek at read-only mesh structures by passing the list into a query function:
+The returned mesh list pointer is opaque.  Clients can peek at read-only mesh structures by passing the list into a query function:
 
 {% highlight c %}
 par_msquares_mesh const* par_msquares_get_mesh(par_msquares_meshlist*, int n);
