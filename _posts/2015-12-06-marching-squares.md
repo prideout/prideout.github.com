@@ -12,11 +12,13 @@ thumbnail : Marching-masked.png
 
 In this post I'll walk through some features in the [par_msquares.h](https://github.com/prideout/par/blob/master/par_msquares.h) library.  The API has two imperative functions:
 
-    par_msquares_meshlist* par_msquares_from_grayscale(float const* data, int width,
-        int height, int cellsize, float threshold, int flags);
+{% highlight c %}
+par_msquares_meshlist* par_msquares_from_grayscale(float const* data, int width,
+    int height, int cellsize, float threshold, int flags);
 
-    par_msquares_meshlist* par_msquares_from_color(uint8_t const* data, int width,
-        int height, int cellsize, uint32_t color, int bpp, int flags);
+par_msquares_meshlist* par_msquares_from_color(uint8_t const* data, int width,
+    int height, int cellsize, uint32_t color, int bpp, int flags);
+{% endhighlight %}
 
 Both of these functions consume a packed array of image data and produce one or triangle meshes.  The `from_grayscale` function consumes floating-point data (one 32-bit float per pixel), while the `from_color` function consumes color data (one to four bytes per pixel).
 
@@ -24,17 +26,19 @@ The library also proffers a lower-level function that takes a callback function 
 
 The returned mesh list pointer is opaque, but clients can peek at read-only mesh structures by passing the list into a query function:
 
-    par_msquares_mesh const* par_msquares_get_mesh(par_msquares_meshlist*, int n);
+{% highlight c %}
+par_msquares_mesh const* par_msquares_get_mesh(par_msquares_meshlist*, int n);
 
-    int par_msquares_get_count(par_msquares_meshlist*);
+int par_msquares_get_count(par_msquares_meshlist*);
 
-    typedef struct {
-        float* points;        // pointer to XY (or XYZ) vertex coordinates
-        int npoints;          // number of vertex coordinates
-        uint16_t* triangles;  // pointer to 3-tuples of vertex indices
-        int ntriangles;       // number of 3-tuples
-        int dim;              // number of floats per point (either 2 or 3)
-    } par_msquares_mesh;
+typedef struct {
+    float* points;        // pointer to XY (or XYZ) vertex coordinates
+    int npoints;          // number of vertex coordinates
+    uint16_t* triangles;  // pointer to 3-tuples of vertex indices
+    int ntriangles;       // number of 3-tuples
+    int dim;              // number of floats per point (either 2 or 3)
+} par_msquares_mesh;
+{% endhighlight %}
 
 When the client is done consuming all the data, it can free all meshes in one fell swoop:
 
