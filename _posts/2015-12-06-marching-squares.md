@@ -8,7 +8,7 @@ thumbnail : Marching-masked.png
 
 <img src="{{ ASSET_PATH }}/figures/MarchingTriptych.png" class="nice-image tri-image">
 
-### Marching Cubes
+### Marching Squares
 
 In this post I'll walk through some features in the [par_msquares.h](https://github.com/prideout/par/blob/master/par_msquares.h) library.  The API has two imperative functions:
 
