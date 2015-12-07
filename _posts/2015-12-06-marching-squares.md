@@ -116,7 +116,7 @@ Grayscale images use a threshold value to determine insideness, but color images
 
 The transparent pixels on the outside of the island have an ARGB value of 0x00214562, so we can invoke marching squares like this:
 
-    mlist = par_msquares_from_color(rgbadata, width, height, cellsize, 0x214562, 4, 0);
+    mlist = par_msquares_from_color(pixels, width, height, cellsize, 0x214562, 4, 0);
 
 <img src="{{ ASSET_PATH }}/figures/COLOR_DEFAULT.png" class="figure">
 
@@ -124,7 +124,7 @@ The transparent pixels on the outside of the island have an ARGB value of 0x0021
 
 Let's try combining INVERT and HEIGHTS.  The alpha values in the source image are wired into the resulting Z values.
 
-    mlist = par_msquares_from_color(rgbadata, width, height, cellsize, 0x214562, 4, PAR_MSQUARES_INVERT | PAR_MSQUARES_HEIGHTS);
+    mlist = par_msquares_from_color(pixels, width, height, cellsize, 0x214562, 4, PAR_MSQUARES_INVERT | PAR_MSQUARES_HEIGHTS);
 
 <img src="{{ ASSET_PATH }}/figures/COLOR_IH.png" class="figure">
 
@@ -132,7 +132,7 @@ Let's try combining INVERT and HEIGHTS.  The alpha values in the source image ar
 
 Last but not least, let's try combining a ton of flags.
 
-    mlist = par_msquares_from_color(rgbadata, width, height, cellsize, 0x214562, 4, PAR_MSQUARES_DUAL | PAR_MSQUARES_HEIGHTS | PAR_MSQUARES_SNAP | PAR_MSQUARES_CONNECT | PAR_MSQUARES_SIMPLIFY | PAR_MSQUARES_INVERT);
+    mlist = par_msquares_from_color(pixels, width, height, cellsize, 0x214562, 4, PAR_MSQUARES_DUAL | PAR_MSQUARES_HEIGHTS | PAR_MSQUARES_SNAP | PAR_MSQUARES_CONNECT | PAR_MSQUARES_SIMPLIFY | PAR_MSQUARES_INVERT);
 
 <img src="{{ ASSET_PATH }}/figures/COLOR_DHSCSI.png" class="figure">
 
