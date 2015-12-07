@@ -10,7 +10,7 @@ thumbnail : Marching-masked.png
 
 ### Marching Cubes
 
-In this post I'll walk through some features in my highly-configurable [par_msquares.h](https://github.com/prideout/par/blob/master/par_msquares.h) library.  The API has two primary imperative functions:
+In this post I'll walk through some features in the [par_msquares.h](https://github.com/prideout/par/blob/master/par_msquares.h) library.  The API has two imperative functions:
 
     par_msquares_meshlist* par_msquares_from_grayscale(float const* data, int width,
         int height, int cellsize, float threshold, int flags);
@@ -22,7 +22,11 @@ Both of these functions consume a packed array of image data and produce one or 
 
 The library also proffers a lower-level function that takes a callback function instead of image data, but the above two entry points are the easiest way to get your feet wet.
 
-Clients can access the results of the operation by peeking inside the returned structs:
+The returned mesh list pointer is opaque, but clients can peek at read-only mesh structures by passing the list into a query function:
+
+    par_msquares_mesh const* par_msquares_get_mesh(par_msquares_meshlist*, int n);
+
+    int par_msquares_get_count(par_msquares_meshlist*);
 
     typedef struct {
         float* points;        // pointer to XY (or XYZ) vertex coordinates
@@ -32,17 +36,13 @@ Clients can access the results of the operation by peeking inside the returned s
         int dim;              // number of floats per point (either 2 or 3)
     } par_msquares_mesh;
 
-    par_msquares_mesh* par_msquares_get_mesh(par_msquares_meshlist*, int n);
-
-    int par_msquares_get_count(par_msquares_meshlist*);
-
-When the client is done consuming all the mesh data, it can free it up:
+When the client is done consuming all the data, it can free all meshes in one fell swoop:
 
     void par_msquares_free(par_msquares_meshlist*);
 
 #### Flags with Grayscale Source
 
-The marching squares operation can be configured using many flags that can be combined in various ways.
+This section is a visual walkthrough of the `flags` argument, which takes a bitfield that can be configured in many different ways.
 
 For starters, let's say your source data is a grayscale image that looks like this.
 
@@ -72,6 +72,67 @@ The SIMPLIFY flag performs some really basic simplification with no loss to the 
 
 <img src="{{ ASSET_PATH }}/figures/GRAY_SIMPLIFY.png" class="figure">
 
+----
+
+The DUAL flag causes the returned meshlist to have two entries instead of one.  The two meshes are disjoint; the boundary verts of each mesh are perfectly colocated.
+
+    mlist = par_msquares_from_grayscale(graydata, width, height, cellsize, thresh, PAR_MSQUARES_DUAL);
+
+<img src="{{ ASSET_PATH }}/figures/GRAY_DUAL.png" class="figure">
+
+----
+
+The HEIGHTS flag generates a Z value at each vert by sampling from the nearest pixel in the source image.
+
+    mlist = par_msquares_from_grayscale(graydata, width, height, cellsize, thresh, PAR_MSQUARES_HEIGHTS);
+
+<img src="{{ ASSET_PATH }}/figures/GRAY_HEIGHTS.png" class="figure">
+
+---
+
+When the HEIGHTS flag is combined with the SNAP flag, a step function is applied to the Z values such that the number of steps is equal to the number of meshes in the generated mesh list.
+
+    mlist = par_msquares_from_grayscale(graydata, width, height, cellsize, thresh, PAR_MSQUARES_DUAL | PAR_MSQUARES_HEIGHTS | PAR_MSQUARES_SNAP);
+
+<img src="{{ ASSET_PATH }}/figures/GRAY_DHS.png" class="figure">
+
+---
+
+The CONNECT flag adds triangles that connect the disjoint verts along the boundary.
+
+    mlist = par_msquares_from_grayscale(graydata, width, height, cellsize, thresh, PAR_MSQUARES_DUAL | PAR_MSQUARES_HEIGHTS | PAR_MSQUARES_SNAP | PAR_MSQUARES_CONNECT);
+
+<img src="{{ ASSET_PATH }}/figures/GRAY_DHSC.png" class="figure">
+
+#### Color Source Images
+
+Grayscale images use a threshold value to determine insideness, but color images use a simple color selector.  For example, suppose we have an RGBA image that looks like this:
+
+<img src="{{ ASSET_PATH }}/figures/COLOR_SOURCE.png" class="figure">
+
+The semitransparent pixels on the outside of the island have an ARGB value of 0x214562, so we can invoke marching squares like this:
+
+    mlist = par_msquares_from_color(rgbadata, width, height, cellsize, 0x214562, 4, 0);
+
+<img src="{{ ASSET_PATH }}/figures/COLOR_DEFAULT.png" class="figure">
+
+---
+
+Let's try combining INVERT and HEIGHTS.  The alpha values in the source image are wired into the resulting Z values.
+
+    mlist = par_msquares_from_color(rgbadata, width, height, cellsize, 0x214562, 4, PAR_MSQUARES_INVERT | PAR_MSQUARES_HEIGHTS);
+
+<img src="{{ ASSET_PATH }}/figures/COLOR_IH.png" class="figure">
+
+---
+
+Last but not least, let's try combining a ton of flags.
+
+    mlist = par_msquares_from_color(rgbadata, width, height, cellsize, 0x214562, 4, PAR_MSQUARES_DUAL | PAR_MSQUARES_HEIGHTS | PAR_MSQUARES_SNAP | PAR_MSQUARES_CONNECT | PAR_MSQUARES_SIMPLIFY | PAR_MSQUARES_INVERT);
+
+<img src="{{ ASSET_PATH }}/figures/COLOR_DHSCSI.png" class="figure">
+
+
 #### Footnote
 
 C is my favorite language nowadays, especially the C99 and C11 variants.  I try not to be stubborn about it -- it's obviously not the best choice in many situations.  But, I definitely enjoy working with it more than any other language.
@@ -81,13 +142,3 @@ C is my favorite language nowadays, especially the C99 and C11 variants.  I try 
 Inspired by Sean Barrett's sweet [stb](https://github.com/nothings/stb) libraries, I've started to create my own little collection of single-header libraries, and that's where the msquares library lives:
 
 #### [https://github.com/prideout/par](https://github.com/prideout/par)
-
-<i>
-Philip Rideout
-<br>
-December 2015
-</i>
-
----
-
-<i style="font-size:8px">Coffee should be hot as hell, black as the devil, pure as an angel, sweet as love.</i>

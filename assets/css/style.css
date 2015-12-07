@@ -55,7 +55,7 @@ hr {
 
 .figure {
     width: 300px;
-    border: dashed 1px #333;
+    /*border: dashed 1px #333;*/
 }
 
 .nice-image {
