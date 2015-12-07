@@ -110,11 +110,11 @@ The CONNECT flag adds triangles that connect the disjoint verts along the bounda
 
 #### Color Source Images
 
-Grayscale images use a threshold value to determine insideness, but color images use a simple color selector.  For example, suppose we have an RGBA image that looks like this:
+Grayscale images use a threshold value to determine insideness, but color images use a simple color selector.  For example, suppose we have an ARGB image that looks like this:
 
 <img src="{{ ASSET_PATH }}/figures/COLOR_SOURCE.png" class="figure">
 
-The semitransparent pixels on the outside of the island have an ARGB value of 0x214562, so we can invoke marching squares like this:
+The transparent pixels on the outside of the island have an ARGB value of 0x00214562, so we can invoke marching squares like this:
 
     mlist = par_msquares_from_color(rgbadata, width, height, cellsize, 0x214562, 4, 0);
 
