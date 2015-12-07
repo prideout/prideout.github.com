@@ -53,11 +53,20 @@ hr {
     width: 90%;
 }
 
+.figure {
+    width: 300px;
+    border: dashed 1px #333;
+}
+
 .nice-image {
     /*margin: 0 auto;
     display: block;*/
     border: 0px solid #788;
 	border-radius:20px;
+}
+
+.tri-image {
+    width: 70%;
 }
 
 /* tag_box ======================================================== */
