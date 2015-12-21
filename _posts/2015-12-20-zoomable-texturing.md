@@ -8,7 +8,7 @@ thumbnail : Zoomable-masked.png
 
 ## Zoomable Texturing
 
-When performing "deep zoom" into simple textured geometry (i.e., no fancy shadertoy-like proceduralism), it doesn't take long before seeing big fat blurry texels.  This post presents some thoughts on simple tileable texturing, inspired by slippy maps.
+When performing "deep zoom" into simple textured geometry (no fancy proceduralism or raymarching), it doesn't take long before seeing big fat blurry texels.  This post presents some thoughts on simple tileable texturing, inspired by slippy maps.
 
 First, a demo.  Press the zoom button to zoom to the east coast of Corsica in this quick-and-dirty map of Europe.  This is _not_ a slippy map.  It's just a simple WebGL app with two draw calls: one for the landmass mesh, and one for the water.
 
