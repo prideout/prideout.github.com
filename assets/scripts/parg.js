@@ -1,12 +1,13 @@
 'using strict';
 
-var PargApp = function(canvas, args, baseurl) {
+var PargApp = function(canvas, args, baseurl, block_interaction) {
     this.canvas = canvas;
     this.args = args;
     this.baseurl = baseurl || 'parg/';
     this.nrequests = 0;
     this.requests = [];
     this.linked_module = null;
+    this.block_interaction = block_interaction;
 
     // First, execute the user-defined main() function in its entirety:
     this.module = CreateParg({parg: this});
@@ -98,7 +99,7 @@ PargApp.prototype.start = function() {
         PAR_EVENT_MOVE: 2
     };
 
-    var dims = this.module.par_window_dims;
+    var dims = this.module.par_window_dims || this.module.parg_window_dims;
     var $canvas = $(this.canvas);
     var canvas = $canvas[0];
     $canvas.css({
@@ -121,8 +122,12 @@ PargApp.prototype.start = function() {
     var clientWidth = canvas.clientWidth;
     var clientHeight = canvas.clientHeight;
     var clientMaxY = clientHeight - 1;
+    var app = this;
 
     var onmousecore = function(event) {
+        if (app.block_interaction) {
+            return;
+        }
         var box = canvas.getBoundingClientRect();
         var x = (event.clientX - box.left) / clientWidth;
         var y = (clientMaxY - event.clientY + box.top) / clientHeight;

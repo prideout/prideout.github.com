@@ -105,3 +105,23 @@ hr {
     color: blue;
     font-style: italic;
 }
+
+.appbtn {
+    width:100%;
+    display:block;
+    border-left:solid 2px black;
+    border-right:solid 2px black;
+    border-bottom:solid 2px black;
+    padding-bottom:5px;
+    padding-top:5px;
+}
+
+.appbtn:focus {outline:0;}
+
+.appbtn:first-of-type {
+    border-top:solid 2px black;
+}
+
+.appbtn.selected {
+    background:#00B8FF;
+}
