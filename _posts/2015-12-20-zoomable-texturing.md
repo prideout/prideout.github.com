@@ -29,7 +29,7 @@ First, a demo.  Press the zoom button to zoom to the east coast of Corsica in th
     </div>
 </div>
 
-The demo draws inspiration from slippy maps to figure out how to scale and translate the texture coordinates.  The shader that applies that water texture doubles the frequency of the texture coordinates every time the zoom level crosses a new integer threshold.  Most of the math is done on the CPU, so the fragment shader is really simple:
+The demo draws inspiration from slippy maps to figure out how to scale and translate the texture coordinates.  The shader that applies the water texture doubles the frequency of the texture coordinates every time the zoom level crosses a new integer threshold.  Most of the math is done on the CPU, so the fragment shader is really simple:
 
 {% highlight glsl %}
 varying vec2 v_texcoord;
