@@ -17,6 +17,8 @@ There are two passes:
 
 There will be smarter ways of doing this in WebGL 2.0 so I thought I'd post this before it becomes passé.  It smoothly handles a quarter-million particles with the lackluster Intel Iris GPU that's in my 13" MacBook.
 
+<i>Unfortunately this fails to run correctly on my iPhone -- maybe vertex textures aren't working?</i>
+
 <div style="width:256px;height:256px;border:solid 2px black;position:relative;display:inline-block">
     <div style="z-index:0;bottom:0;left:0;position:absolute;width:100%;padding:20px;font-weight:bold">
         Loading...
@@ -27,7 +29,7 @@ There will be smarter ways of doing this in WebGL 2.0 so I thought I'd post this
 
 <div style="width:100px;height:260px;position:relative;display:inline-block">
     <div style="z-index:0;top:0;left:0;position:absolute;width:100%;font-weight:bold">
-        <button id="toggle" class="appbtn">Start</button>
+        <button id="toggle" class="appbtn">Pause</button>
         <button id="256" class="szbtn appbtn">65536</button>
         <button id="512" class="szbtn appbtn selected">262144</button>
         <button id="1024" class="szbtn appbtn">1048576</button>
@@ -63,7 +65,7 @@ Incidentally, the following astrodynamics libraries look cool.  They are quite d
 <script src="{{ ASSET_PATH }}/scripts/parg.js"></script>
 <script>
     var baseurl = '{{ ASSET_PATH }}/';
-    var app = new PargApp('#mycanvas', 'pause', baseurl, true, {
+    var app = new PargApp('#mycanvas', 'play', baseurl, true, {
         alpha: false,
         antialias: false
     });
