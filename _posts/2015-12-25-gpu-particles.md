@@ -6,13 +6,16 @@ thumbnail : Orbits-masked.png
 ---
 {% include JB/setup %}
 
-## GPU Particles with WebGL 1.0
+## Simple GPU Physics with WebGL 1.0
 
-Here's a particle demo that does Verlet integration and avoids sending data to the GPU on a per-frame basis.
+Here's a particle demo that performs Verlet integration in the fragment shader and avoids any transfers to the GPU.
 
-There are two passes: a physics pass that samples from one floating-point FBO and writes to another, and a graphics pass that samples the FBO from the vertex shader.  Easy!
+There are two passes:
 
-There will be smarter ways of doing this in WebGL 2.0 so I thought I'd put this out before it's hopelesslly passé.  It seems to handle a million particles just fine with the Intel Iris GPU in my 13" MacBook.
+- The **physics** pass samples from one floating-point FBO and writes to another.  Draws one big quad.
+- The **graphics** pass samples the FBO in the vertex shader to determine position.  Draws point sprites.
+
+There will be smarter ways of doing this in WebGL 2.0 so I thought I'd post this before it becomes passé.  It smoothly handles a quarter-million particles with the lackluster Intel Iris GPU that's in my 13" MacBook.
 
 <div style="width:256px;height:256px;border:solid 2px black;position:relative;display:inline-block">
     <div style="z-index:0;bottom:0;left:0;position:absolute;width:100%;padding:20px;font-weight:bold">
@@ -31,14 +34,29 @@ There will be smarter ways of doing this in WebGL 2.0 so I thought I'd put this 
     </div>
 </div>
 
+There are three gravity sources, and each particle is randomly assigned to only one of the gravity sources.  So it's a bit unrealistic, but could easily be extended.
+
 Here's the sketch I made before coding this up:
 
 <a href="{{ ASSET_PATH }}/figures/OrbitsDiagram.jpg">
-<img src="{{ ASSET_PATH }}/figures/OrbitsDiagram.jpg" class="nice-image med-image">
+<img src="{{ ASSET_PATH }}/figures/OrbitsDiagram.jpg"
+     class="nice-image"
+     style="width:300px">
 </a>
 
-- [ztex.c](https://github.com/prideout/parg/blob/master/demos/ztex.c)
-- [ztex.glsl](https://github.com/prideout/parg/blob/master/demos/ztex.glsl)
+Here's the source:
+
+- [orbits.c](https://github.com/prideout/parg/blob/master/demos/orbits.c)
+- [orbits.glsl](https://github.com/prideout/parg/blob/master/demos/orbits.glsl)
+
+Incidentally, the following astrodynamics libraries look cool.  They are quite different from typical physics engines, and might be fun to use for accurate simulation of orbital mechanics on the CPU.
+
+- [GAL](http://www.amsat-bda.org/GAL_Home.html)
+- [Tudat](https://github.com/Tudat)
+
+---
+
+<i style="font-size:10px">Simplicity is a great virtue but it requires hard work to achieve it and education to appreciate it. And to make matters worse: complexity sells better. -- Dijkstra</i>
 
 <script src="{{ ASSET_PATH }}/scripts/jquery-1.11.2.min.js"></script>
 <script src="{{ ASSET_PATH }}/scripts/orbits.js"></script>
