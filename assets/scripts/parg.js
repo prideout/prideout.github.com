@@ -1,6 +1,10 @@
 'using strict';
 
-var PargApp = function(canvas, args, baseurl, block_interaction) {
+var PargApp = function(canvas, args, baseurl, block_interaction, attribs) {
+    this.attribs = attribs || {
+        alpha: true,
+        antialias: true
+    };
     this.canvas = canvas;
     this.args = args;
     this.baseurl = baseurl || 'parg/';
@@ -109,10 +113,7 @@ PargApp.prototype.start = function() {
     canvas.width = dims[0] * window.devicePixelRatio;
     canvas.height = dims[1] * window.devicePixelRatio;
 
-    var GLctx = this.module.createContext(canvas, 1, 1, {
-        alpha: true,
-        antialias: true
-    });
+    var GLctx = this.module.createContext(canvas, 1, 1, this.attribs);
     GLctx.clearColor(0.2, 0.4, 0.8, 1.0);
     GLctx.clear(GLctx.COLOR_BUFFER_BIT);
     $canvas.show();
