@@ -1,6 +1,6 @@
 ---
 layout: page
-tags : [opengl, graphics]
+tags : [personal]
 description : "Reminiscing about my corporate alma mater."
 thumbnail : glsldemo-masked.png
 title: Remember 3Dlabs?
