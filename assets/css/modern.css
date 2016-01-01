@@ -11,7 +11,8 @@ h1 {
 
 header img {
     width:200px;
-    height:100px;
+    height:70px;
+    margin-left:-10px;
 }
 
 footer {
