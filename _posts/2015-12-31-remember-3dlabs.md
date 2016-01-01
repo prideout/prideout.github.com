@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: modern
 tags : [personal]
 description : "Reminiscing about my corporate alma mater."
 thumbnail : glsldemo-masked.png
@@ -7,7 +7,7 @@ title: Remember 3Dlabs?
 ---
 {% include JB/setup %}
 
-## Remember 3Dlabs?
+# Remember 3Dlabs?
 
 3Dlabs was a cool little UK-based company.  It was founded in 1994 when Osman Kent left DuPont Pixel, but I came to it in 2000 when it absorbed Intense3D, a spinoff from Intergraph.
 
@@ -22,7 +22,7 @@ title: Remember 3Dlabs?
 
 For the most part, I was located at the Colorado office, working on a small piece of the world's first GLSL compiler.
 
-<img src="{{ ASSET_PATH }}/downtown.jpg" class="nice-image" style="height:250px">
+<img src="{{ ASSET_PATH }}/downtown.jpg" class="nice-image" style="width:95%;max-width:512px">
 
 <i>Our office was on the second floor in Fort Collins Old Town Square.</i>
 

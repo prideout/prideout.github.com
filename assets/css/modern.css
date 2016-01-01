@@ -1,0 +1,35 @@
+html {
+    color: #404040;
+    font: 400 1em/1.4 'Open Sans', sans-serif;
+    text-rendering: optimizeLegibility;
+}
+
+h1 {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+header img {
+    width:200px;
+    height:100px;
+}
+
+footer {
+    margin-top: 10px;
+}
+
+footer p a {
+    padding-right: 20px
+}
+
+.content {
+    background-color: #F4F3F0;
+    font-family: 'Open Sans', sans-serif;
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+
+.nice-image {
+    border: 0px solid #788;
+	border-radius:20px;
+}
