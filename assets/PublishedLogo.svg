@@ -207,7 +207,6 @@
          d="m 456.9369,327.1663 c 1.8978,0 3.4371,-1.5392 3.4371,-3.437 0,-1.8981 -1.5393,-3.437 -3.4371,-3.437 -1.898,0 -3.437,1.5389 -3.437,3.437 0,1.8978 1.539,3.437 3.437,3.437"
          id="path80"
          style="fill:url(#radialGradient74-668-4);fill-rule:evenodd;stroke:none">
-<set attributeName="stroke" to="#000" begin="hoverrect.mouseover" end="hoverrect.mouseout"/>
 </path>
 
 </g></g></g><text
