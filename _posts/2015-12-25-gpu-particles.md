@@ -3,6 +3,7 @@ layout: page
 tags : [opengl, graphics]
 description : "GPU-Driven Particles with WebGL 1.0."
 thumbnail : Orbits-masked.png
+title: GPU Particles
 ---
 {% include JB/setup %}
 
