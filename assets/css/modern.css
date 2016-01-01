@@ -4,6 +4,30 @@ html {
     text-rendering: optimizeLegibility;
 }
 
+ul.index {
+    list-style-type:none;
+    padding:0px;
+}
+
+.index .description {
+    display:inline-block;
+}
+
+.index a:hover {
+     text-decoration: none;
+}
+
+.index li {
+    border-bottom: solid 2px rgba(195, 90, 0, 0.33);
+}
+
+.index img {
+    width: 128px;
+    height: 72px;
+    vertical-align:top;
+    margin-bottom: 10px;
+}
+
 h1 {
     font-weight: bold;
     font-size: 18px;

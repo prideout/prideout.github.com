@@ -1,0 +1,62 @@
+---
+---
+{% include JB/setup %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name=HandheldFriendly content=True>
+    <meta name=MobileOptimized content=320>
+    <meta name=viewport content="width=device-width,minimum-scale=1,maximum-scale=1">
+
+    <title>{{ page.title }}</title>
+    {% if page.description %}<meta name="description" content="{{ page.description }}">{% endif %}
+    <meta name="author" content="{{ site.author.name }}">
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+    if (window.location.protocol == "https:") {
+        MathJax.OutputJax.fontDir = "https://github.com/assets/MathJax/fonts"
+    } else {
+        MathJax.OutputJax.fontDir = "http://github.com/assets/MathJax/fonts"
+    }
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
+        jax: ["input/TeX", "output/HTML-CSS"]
+    })
+    </script>
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600" rel="stylesheet" type="text/css">
+    <link href="{{ ASSET_PATH }}/bootstrap-3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ ASSET_PATH }}/bootstrap-3.3.6/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="{{ ASSET_PATH }}/css/modern.css" rel="stylesheet">
+    <link href="{{ ASSET_PATH }}/css/syntax.css" rel="stylesheet">
+    <link rel="shortcut icon" href="http://prideout.net/favicon.ico">
+
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <a href="{{ HOME_PATH }}">
+                <img src="{{ ASSET_PATH }}/PublishedLogo.svg">
+            </a>
+        </header>
+        <div class="content">
+            {{ content }}
+        </div>
+        <footer>
+            <p>
+                <a href="{{ HOME_PATH }}">[home]</a>
+                <a href="http://prideout.net/blog">[old]</a>
+                <a href="http://prideout.net/archive/vita.html">[bio]</a>
+                <a href="http://github.com/prideout">[github]</a>
+                <a href="http://twitter.com/prideout">[twitter]</a>
+            </p>
+        </footer>
+    </div>
+
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="{{ ASSET_PATH }}/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    {% include JB/analytics %}
+</body>
+</html>
