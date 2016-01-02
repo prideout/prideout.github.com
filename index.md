@@ -1,6 +1,5 @@
 ---
 layout: index
-title: The Little Grasshopper
 ---
 <ul class="index">
     {% for post in site.posts %}
