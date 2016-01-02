@@ -38,7 +38,6 @@ Philip Rideout
 December 2015
 </i>
 
-<script src="{{ ASSET_PATH }}/scripts/jquery-1.11.2.min.js"></script>
 <script src="{{ ASSET_PATH }}/scripts/klein.js"></script>
 <script src="{{ ASSET_PATH }}/scripts/parg.js"></script>
 <script>
