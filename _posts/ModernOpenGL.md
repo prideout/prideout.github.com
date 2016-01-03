@@ -1,1 +1,0 @@
-2012-05-09-modern-opengl.md
