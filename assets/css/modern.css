@@ -4,6 +4,10 @@ html {
     text-rendering: optimizeLegibility;
 }
 
+hr {
+    border-bottom: solid 2px rgba(195, 90, 0, 0.33);
+}
+
 ul.index {
     list-style-type:none;
     padding:0px;
@@ -26,6 +30,20 @@ ul.index {
     height: 72px;
     vertical-align:top;
     margin-bottom: 10px;
+}
+
+.figure {
+    width: 300px;
+}
+
+.hero-image {
+    margin-top: 10px;
+    width: 70%;
+}
+
+.nice-image {
+    border: 0px solid #788;
+	border-radius:20px;
 }
 
 h1 {

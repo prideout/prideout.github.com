@@ -1,12 +1,12 @@
 ---
-layout: page
+layout: modern
 tags : [graphics]
 description : "My single-file C library for generating triangles from images."
 thumbnail : Marching-masked.png
 ---
 {% include JB/setup %}
 
-<img src="{{ ASSET_PATH }}/figures/MarchingTriptych.png" class="nice-image tri-image">
+<img src="{{ ASSET_PATH }}/figures/MarchingTriptych.png" class="nice-image hero-image">
 
 ### Marching Squares
 
@@ -75,7 +75,8 @@ The simplest thing to do is to use the default behavior.  Pass 0 for the flags a
 
 The INVERT flag does what it sounds like.
 
-    mlist = par_msquares_grayscale(graydata, width, height, cellsize, thresh, PAR_MSQUARES_INVERT);
+    mlist = par_msquares_grayscale(graydata, width, height, cellsize, thresh,
+        PAR_MSQUARES_INVERT);
 
 <img src="{{ ASSET_PATH }}/figures/GRAY_INVERT.png" class="figure">
 
@@ -83,7 +84,8 @@ The INVERT flag does what it sounds like.
 
 The SIMPLIFY flag performs some really basic simplification with no loss to the quality of the boundary.  It won't produce the simplest possible mesh, but it's fast and simple.
 
-    mlist = par_msquares_grayscale(graydata, width, height, cellsize, thresh, PAR_MSQUARES_SIMPLIFY);
+    mlist = par_msquares_grayscale(graydata, width, height, cellsize, thresh,
+        PAR_MSQUARES_SIMPLIFY);
 
 <img src="{{ ASSET_PATH }}/figures/GRAY_SIMPLIFY.png" class="figure">
 
@@ -91,7 +93,8 @@ The SIMPLIFY flag performs some really basic simplification with no loss to the 
 
 The DUAL flag causes the returned meshlist to have two entries instead of one.  The two meshes are disjoint; the boundary verts of each mesh are perfectly colocated.
 
-    mlist = par_msquares_grayscale(graydata, width, height, cellsize, thresh, PAR_MSQUARES_DUAL);
+    mlist = par_msquares_grayscale(graydata, width, height, cellsize, thresh,
+        PAR_MSQUARES_DUAL);
 
 <img src="{{ ASSET_PATH }}/figures/GRAY_DUAL.png" class="figure">
 
@@ -99,7 +102,8 @@ The DUAL flag causes the returned meshlist to have two entries instead of one.  
 
 The HEIGHTS flag generates a Z value at each vert by sampling from the nearest pixel in the source image.
 
-    mlist = par_msquares_grayscale(graydata, width, height, cellsize, thresh, PAR_MSQUARES_HEIGHTS);
+    mlist = par_msquares_grayscale(graydata, width, height, cellsize, thresh,
+        PAR_MSQUARES_HEIGHTS);
 
 <img src="{{ ASSET_PATH }}/figures/GRAY_HEIGHTS.png" class="figure">
 
@@ -107,7 +111,8 @@ The HEIGHTS flag generates a Z value at each vert by sampling from the nearest p
 
 When the HEIGHTS flag is combined with the SNAP flag, a step function is applied to the Z values such that the number of steps is equal to the number of meshes in the generated mesh list.
 
-    mlist = par_msquares_grayscale(graydata, width, height, cellsize, thresh, PAR_MSQUARES_DUAL | PAR_MSQUARES_HEIGHTS | PAR_MSQUARES_SNAP);
+    mlist = par_msquares_grayscale(graydata, width, height, cellsize, thresh,
+        PAR_MSQUARES_DUAL | PAR_MSQUARES_HEIGHTS | PAR_MSQUARES_SNAP);
 
 <img src="{{ ASSET_PATH }}/figures/GRAY_DHS.png" class="figure">
 
@@ -115,7 +120,9 @@ When the HEIGHTS flag is combined with the SNAP flag, a step function is applied
 
 The CONNECT flag adds triangles that connect the disjoint verts along the boundary.
 
-    mlist = par_msquares_grayscale(graydata, width, height, cellsize, thresh, PAR_MSQUARES_DUAL | PAR_MSQUARES_HEIGHTS | PAR_MSQUARES_SNAP | PAR_MSQUARES_CONNECT);
+    mlist = par_msquares_grayscale(graydata, width, height, cellsize, thresh,
+        PAR_MSQUARES_DUAL | PAR_MSQUARES_HEIGHTS | PAR_MSQUARES_SNAP |
+        PAR_MSQUARES_CONNECT);
 
 <img src="{{ ASSET_PATH }}/figures/GRAY_DHSC.png" class="figure">
 
@@ -135,7 +142,8 @@ The transparent pixels on the outside of the island have an ARGB value of 0x0021
 
 Let's try combining INVERT and HEIGHTS.  The alpha values in the source image are wired into the resulting Z values.
 
-    mlist = par_msquares_color(pixels, width, height, cellsize, 0x214562, 4, PAR_MSQUARES_INVERT | PAR_MSQUARES_HEIGHTS);
+    mlist = par_msquares_color(pixels, width, height, cellsize, 0x214562, 4,
+        PAR_MSQUARES_INVERT | PAR_MSQUARES_HEIGHTS);
 
 <img src="{{ ASSET_PATH }}/figures/COLOR_IH.png" class="figure">
 
@@ -143,7 +151,9 @@ Let's try combining INVERT and HEIGHTS.  The alpha values in the source image ar
 
 Next, let's try combining a ton of flags.
 
-    mlist = par_msquares_color(pixels, width, height, cellsize, 0x214562, 4, PAR_MSQUARES_DUAL | PAR_MSQUARES_HEIGHTS | PAR_MSQUARES_SNAP | PAR_MSQUARES_CONNECT | PAR_MSQUARES_SIMPLIFY | PAR_MSQUARES_INVERT);
+    mlist = par_msquares_color(pixels, width, height, cellsize, 0x214562, 4,
+        PAR_MSQUARES_DUAL | PAR_MSQUARES_HEIGHTS | PAR_MSQUARES_SNAP |
+        PAR_MSQUARES_CONNECT | PAR_MSQUARES_SIMPLIFY | PAR_MSQUARES_INVERT);
 
 <img src="{{ ASSET_PATH }}/figures/COLOR_DHSCSI.png" class="figure">
 
@@ -151,7 +161,8 @@ Next, let's try combining a ton of flags.
 
 One more example, this time using the `color_multi` entry point.
 
-    mlist = par_msquares_color_multi(pixels, width, height, cellsize, 4, PAR_MSQUARES_HEIGHTS | PAR_MSQUARES_CONNECT | PAR_MSQUARES_SIMPLIFY);
+    mlist = par_msquares_color_multi(pixels, width, height, cellsize, 4,
+        PAR_MSQUARES_HEIGHTS | PAR_MSQUARES_CONNECT | PAR_MSQUARES_SIMPLIFY);
 
 <img src="{{ ASSET_PATH }}/figures/COLOR_MULTI.png" class="figure">
 
