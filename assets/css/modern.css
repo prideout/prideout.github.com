@@ -41,6 +41,14 @@ ul.index {
     width: 70%;
 }
 
+div.triptych {
+    margin-top: 15px;
+}
+
+.triptych img {
+    width: 20%;
+}
+
 .nice-image {
     border: 0px solid #788;
 	border-radius:20px;
