@@ -10,7 +10,7 @@ thumbnail : Marching-masked.png
 
 ### Marching Squares
 
-In this post I'll walk through some features of the [par_msquares.h](https://github.com/prideout/par/blob/master/par_msquares.h) library.  The API has three imperative functions:
+In this post I'll walk through some features of the [par_msquares.h](https://github.com/prideout/par/blob/master/par_msquares.h) library.  The API has three entry points:
 
 {% highlight c %}
 par_msquares_meshlist* par_msquares_grayscale(float const* data, int width,
@@ -51,25 +51,51 @@ typedef struct {
 } par_msquares_mesh;
 {% endhighlight %}
 
-When the client is done consuming all the data, it can free all meshes in one fell swoop:
+See the unit tests for an example of how to export the above data structure to a OBJ mesh.
 
-    void par_msquares_free(par_msquares_meshlist*);
+The polygonal contour of the mesh can be obtained using the following utility function:
 
-#### Flags with Grayscale Source
+{% highlight c %}
+par_msquares_boundary* par_msquares_extract_boundary(par_msquares_mesh const* );
 
-This section is a visual walkthrough of the `flags` argument, which takes a bitfield that can be configured in many different ways.
+// Polyline boundary extracted from a mesh, composed of one or more chains.
+// Counterclockwise chains are solid, clockwise chains are holes.  So, when
+// serializing to SVG, all chains can be aggregated into a single <path>,
+// provided each one terminates with a "Z" and uses the default fill rule.
+typedef struct {
+    float* points;        // list of XY vertex coordinates
+    int npoints;          // number of vertex coordinates
+    float** chains;       // list of pointers to the start of each chain
+    uint16_t* lengths;    // list of chain lengths
+    int nchains;          // number of chains
+} par_msquares_boundary;
+{% endhighlight %}
 
-For starters, let's say your source data is a grayscale image that looks like this.
+See the unit tests for an example of how to export the above data structure to a SVG file.
+
+#### Examples with a Grayscale Image
+
+Let's say your source data is a floating-point image that looks like this.  It is shown with a perspective tilt for reasons that will be apparent later.
 
 <img src="{{ ASSET_PATH }}/figures/GRAY_SOURCE.png" class="figure">
+
+The following SVG image was created by calling `par_msquares_grayscale` with the above input data.  It was invoked four times using various threshold values.  After each invocation, the contours were obtained using `par_msquares_extract_boundary` and appended to the SVG file.
+
+<img src="{{ ASSET_PATH }}/figures/msquares_gray_dual.svg" class="figure">
+
+Next we'll have a visual walkthrough of the `flags` argument, which takes a bitfield that can be configured in many different ways.
 
 ---
 
 The simplest thing to do is to use the default behavior.  Pass 0 for the flags argument, pick a threshold, and pick a cell size.
 
-    mlist = par_msquares_grayscale(graydata, width, height, cellsize, thresh, 0);
+    int flags = 0;
+    mlist = par_msquares_grayscale(graydata, width, height, cellsize, thresh,
+        flags);
 
 <img src="{{ ASSET_PATH }}/figures/GRAY_DEFAULT.png" class="figure">
+
+The above image appears squashed because we're applying some perspective --- stay tuned.
 
 ---
 
