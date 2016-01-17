@@ -51,9 +51,9 @@ typedef struct {
 } par_msquares_mesh;
 {% endhighlight %}
 
-See the unit tests for an example of how to export the above data structure to a OBJ mesh.
+See the unit tests for an example of how to export the above data structure to an OBJ mesh.
 
-The polygonal contour of the mesh can be obtained using the following utility function:
+The polygonal contour of the mesh can be obtained using the following utility function.
 
 {% highlight c %}
 par_msquares_boundary* par_msquares_extract_boundary(par_msquares_mesh const* );
