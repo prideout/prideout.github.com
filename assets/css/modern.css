@@ -84,3 +84,28 @@ footer p a {
     border: 0px solid #788;
 	border-radius:20px;
 }
+
+canvas {
+    border:solid 2px black;
+}
+
+.appbtn {
+    width:100%;
+    display:block;
+    border-top:0;
+    border-left:solid 2px black;
+    border-right:solid 2px black;
+    border-bottom:solid 2px black;
+    padding-bottom:5px;
+    padding-top:5px;
+}
+
+.appbtn:focus {outline:0;}
+
+.appbtn:first-of-type {
+    border-top:solid 2px black;
+}
+
+.appbtn.selected {
+    background:#00B8FF;
+}
