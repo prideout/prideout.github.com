@@ -5,6 +5,7 @@
 
 uniform mat4 u_mvp;
 uniform float u_sel;
+uniform float u_camz;
 varying float v_rim;
 varying vec3 v_fill;
 varying float v_alpha;
@@ -16,15 +17,18 @@ const vec3 SELC = vec3(1, 1, 0);
 -- vertex
 
 attribute vec4 a_position;
+attribute vec4 a_center;
 
 void main()
 {
     vec4 p = a_position;
-    v_rim = 1.0 - 2.0 * fract(a_position.z);
-    bool selected = floor(a_position.z) == u_sel;
+    p.xy *= a_center.z;
+    p.xy += a_center.xy;
+    bool selected = a_center.w == u_sel;
     v_fill = selected ? SELC : FILLC;
     v_alpha = selected ? 0.4 : 0.2;
-    p.z = 0.0;
+    v_rim = p.z;
+    p.z = u_camz;
     gl_Position = u_mvp * p;
 }
 
