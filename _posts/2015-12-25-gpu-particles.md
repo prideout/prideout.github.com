@@ -54,6 +54,7 @@ Here's the source:
 
 Incidentally, the following astrodynamics libraries look cool.  They are quite different from typical physics engines, and might be fun to use for accurate simulation of orbital mechanics on the CPU.
 
+- [rebound](https://github.com/hannorein/rebound)
 - [KeplerOrbits](https://github.com/podgorskiy/KeplerOrbits)
 - [GAL](http://www.amsat-bda.org/GAL_Home.html)
 - [Tudat](https://github.com/Tudat)
