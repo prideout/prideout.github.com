@@ -3,13 +3,13 @@ layout: page
 tags : [webgl]
 description : "Interactive gallery of the prime knots through 9 crossings."
 thumbnail : KnotGallery-masked.png
-special_url : http://prideout.net/knotgl
+special_url : http://github.prideout.net/knotgl
 ---
 {% include JB/setup %}
 
 Here's a fun little WebGL app I put together that lets you explore prime knots through 9 crossings, and some multi-component links through 8 crossings.  My layout of the Rolfsen table was inspired by Robert Scharein's <i>Knot Zoo</i>.
 
-**[http://prideout.net/knotgl](http://prideout.net/knotgl)**
+**[http://github.prideout.net/knotgl](http://github.prideout.net/knotgl)**
 
 The notation in the lower-right corner is the Alexander-Briggs name for the knot.  Click any of the knots along the top to swap the current knot.  The bottom link swipes the page over to the full gallery.
 
