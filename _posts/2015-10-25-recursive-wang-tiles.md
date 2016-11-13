@@ -8,7 +8,7 @@ thumbnail : RWT-masked.png
 
 # 2D Point Sequences
 
-Way back in 2007, Robert Bridson came up with an elegant way of generating a well-distributed set of points (D3 animations [here](http://bl.ocks.org/mbostock/19168c663618b7f07158) and [here](http://bl.ocks.org/mbostock/dbb02448b0f93e4c82c3)).  This algorithm is awesome for a number of reasons, one of which being that it can create points with arbitrary dimensionality.  However it should be noted that it does not create _progressive_ sequences.  In a progressive sequence, points are ordered such that any subset consisting of the N points is Poisson disk distributed over the entire range.
+Way back in 2007, Robert Bridson came up with an elegant way of generating a well-distributed set of points (D3 animations [here](http://bl.ocks.org/mbostock/19168c663618b7f07158) and [here](http://bl.ocks.org/mbostock/dbb02448b0f93e4c82c3)).  This algorithm is awesome for a number of reasons, one of which being that it can create points with arbitrary dimensionality.  However it should be noted that it does not create _progressive_ sequences.  In a progressive sequence, points are ordered such that any subset consisting of the first N points is Poisson disk distributed over the entire range.
 
 The Recursive Wang Tiles method for generating blue noise ([Kopf 2006](http://github.prideout.net/rwt/Kopf2006.pdf)) can quickly generate a progressive sequence by consuming a small set of pre-generated tiles.  On the downside, these tiles are complex to construct.
 
