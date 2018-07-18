@@ -12,9 +12,13 @@ layout: index
         {% endif %}
 
             <div class="col-sm-3 col-md-2">
-                <img
-                    src="{{ BASE_PATH }}/assets/thumbnails/{{ post.thumbnail }}"
-                    alt="thumbnail"/>
+                {% if post.thumbnail != nil %}
+                    <img
+                        src="{{ BASE_PATH }}/assets/thumbnails/{{ post.thumbnail }}"
+                        alt="thumbnail"/>
+                {% else %}
+                    <img class="post_icon" src="{{ post.icon_url }}" alt="icon"/>
+                {% endif %}
             </div>
 
             <div class="description col-sm-6">
