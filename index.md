@@ -17,7 +17,10 @@ layout: index
                         src="{{ BASE_PATH }}/assets/thumbnails/{{ post.thumbnail }}"
                         alt="thumbnail"/>
                 {% else %}
-                    <img class="post_icon" src="{{ post.icon_url }}" alt="icon"/>
+                    <img
+                        class="post_icon"
+                        src="{{ post.icon_url }}"
+                        alt="icon"/>
                 {% endif %}
             </div>
 
