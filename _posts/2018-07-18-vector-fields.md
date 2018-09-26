@@ -10,4 +10,4 @@ special_url : https://github.prideout.net/blog/streamlines/
 
 Rendering streamlines for data visualization.
 
-http://github.prideout.net/blog/streamlines/
+https://github.prideout.net/blog/streamlines/
