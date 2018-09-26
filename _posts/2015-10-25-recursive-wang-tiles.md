@@ -10,7 +10,7 @@ thumbnail : RWT-masked.png
 
 Way back in 2007, Robert Bridson came up with an elegant way of generating a well-distributed set of points (D3 animations [here](http://bl.ocks.org/mbostock/19168c663618b7f07158) and [here](http://bl.ocks.org/mbostock/dbb02448b0f93e4c82c3)).  This algorithm is awesome for a number of reasons, one of which being that it can create points with arbitrary dimensionality.  However it should be noted that it does not create _progressive_ sequences.  In a progressive sequence, points are ordered such that any subset consisting of the first N points is Poisson disk distributed over the entire range.
 
-The Recursive Wang Tiles method for generating blue noise ([Kopf 2006](https://github.prideout.net/rwt/Kopf2006.pdf)) can quickly generate a progressive sequence by consuming a small set of pre-generated tiles.  On the downside, these tiles are complex to construct.
+The Recursive Wang Tiles method for generating blue noise ([Kopf 2006](https://prideout.net/rwt/Kopf2006.pdf)) can quickly generate a progressive sequence by consuming a small set of pre-generated tiles.  On the downside, these tiles are complex to construct.
 
 Here's a single-file C library that implements the real-time portion of the Recursive Wang Tiles algorithm (as opposed to tile construction).
 
@@ -18,8 +18,8 @@ Here's a single-file C library that implements the real-time portion of the Recu
 
 To show off the library, I used emscripten to create the two demos on this page.  Below are links to the density textures used in these demos.
 
-* [trillium.png](https://github.prideout.net/assets/trillium.png) (890 KB)
-* [terrainpts.png](https://github.prideout.net/assets/terrainpts.png) (50 KB)
+* [trillium.png](https://prideout.net/assets/trillium.png) (890 KB)
+* [terrainpts.png](https://prideout.net/assets/terrainpts.png) (50 KB)
 
 ### Demo #1: Continuous Generation
 
@@ -57,7 +57,7 @@ The following demo uses a vertex buffer with about 1.4 million points, but you c
 
 * [emscripten](http://emscripten.org), an LLVM-based project that compiles C into JavaScript.
 * [Fast Poisson Disk Sampling in Arbitrary Dimensions](https://www.cs.ubc.ca/~rbridson/docs/bridson-siggraph07-poissondisk.pdf) by Robert Bridson.
-* [Recursive Wang Tiles for Real-Time Blue Noise](https://github.prideout.net/rwt/Kopf2006.pdf) by Johannes Kopf et al.
+* [Recursive Wang Tiles for Real-Time Blue Noise](https://prideout.net/rwt/Kopf2006.pdf) by Johannes Kopf et al.
 
 <i>
 Philip Rideout

@@ -54,7 +54,7 @@ A few things to notice:
 
 ## XML
 
-Parsing the XML description described in my previous posts ([link](https://github.prideout.net/blog/?p=44#rules)) was a pleasure because the `encoders/xml` package uses reflection to discover how to unmarshal the data.  Go has a kind of metadata that you can add called **tags**, which are specified with strings in your field declarations.  Here's the same struct again, this time with tags:
+Parsing the XML description described in my previous posts ([link](https://prideout.net/blog/?p=44#rules)) was a pleasure because the `encoders/xml` package uses reflection to discover how to unmarshal the data.  Go has a kind of metadata that you can add called **tags**, which are specified with strings in your field declarations.  Here's the same struct again, this time with tags:
 
 {% highlight go %}
 type LSystem struct {
