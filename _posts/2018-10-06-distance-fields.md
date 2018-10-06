@@ -2,7 +2,7 @@
 layout: page
 tags : [graphics, image processing]
 description : "Generating distance fields efficiently on the CPU."
-title : distance_fields
+title : Distance Fields
 icon_url : https://prideout.net/blog/distance_fields/thumbnail.png
 special_url : https://prideout.net/blog/distance_fields/
 ---
