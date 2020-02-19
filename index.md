@@ -14,6 +14,7 @@ layout: index
             <div class="col-sm-3 col-md-2">
                 {% if post.thumbnail != nil %}
                     <img
+                        class="post_icon"
                         src="{{ BASE_PATH }}/assets/thumbnails/{{ post.thumbnail }}"
                         alt="thumbnail"/>
                 {% else %}
