@@ -1,4 +1,8 @@
 
+name:         The Little Grasshopper
+description:  Computer Graphics and Mathematics
+url:          https://prideout.net
+
 exclude: [".rvmrc", ".rbenv-version", "README.md", "Rakefile", "changelog.md"]
 highlighter: true
 permalink: /:title
@@ -7,7 +11,7 @@ permalink: /:title
 # so be sure to set them if your theme uses them.
 #
 title : Little Grasshopper
-tagline: Graphics Programming Tips
+tagline: Graphics and Math
 author :
   name : Philip Rideout
   github : prideout
