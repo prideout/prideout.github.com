@@ -60,16 +60,21 @@ h1 {
 }
 
 header img {
-    width:200px;
-    height:70px;
-    margin-left:-2px;
+    max-height:250px;
+    max-width:100%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+header p {
+    padding-top: 10px;
 }
 
 footer {
     margin-top: 10px;
 }
 
-footer p a {
+header p a, footer p a {
     padding-right: 20px
 }
 
