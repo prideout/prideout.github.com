@@ -3,7 +3,7 @@ layout: page
 tags : [group theory]
 description : "Some notes about rolling cube games."
 title : Rolling Cubes and Group Theory
-thumbnail : https://prideout.net/blog/group_theory/thumb.png
+thumbnail : group_theory.png
 special_url : https://prideout.net/blog/group_theory/
 ---
 {% include JB/setup %}
